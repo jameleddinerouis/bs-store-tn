@@ -54,7 +54,7 @@
         }
         button:hover { background-color: #00cc00; }
 
-        /* --- TABLEAU DE BORD (CACHÉ AU DÉBUT) --- */
+        /* --- TABLEAU DE BORD --- */
         #dashboard {
             display: none;
             width: 90%;
@@ -125,11 +125,11 @@
                 <div class="stat-sub">Objectif cycle: 600 DT</div>
             </div>
 
-            <!-- Widget Visites (Aléatoire) -->
+            <!-- Widget Visites (Persistant) -->
             <div class="stat-card">
                 <div class="stat-title">Visiteurs Aujourd'hui</div>
-                <div class="stat-value" id="visitors-val">--</div>
-                <div class="stat-sub">En direct de Tunisie</div>
+                <div class="stat-value" id="visitors-val" style="color: cyan; text-shadow: 0 0 5px cyan;">--</div>
+                <div class="stat-sub">Depuis 8h00 du matin</div>
             </div>
 
             <!-- Widget Commandes -->
@@ -150,13 +150,11 @@
 
     <script>
         /* =========================================
-           PROTECTION ANTI-INSPECTEUR D'ÉLÉMENTS
+           PROTECTION ANTI-INSPECTEUR
            ========================================= */
-        // Bloque le clic droit
         document.addEventListener('contextmenu', event => event.preventDefault());
-        // Bloque F12, Ctrl+Maj+I, Ctrl+Maj+C, Ctrl+U
         document.onkeydown = function(e) {
-            if(e.keyCode == 123) return false; // F12
+            if(e.keyCode == 123) return false; 
             if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
             if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false;
             if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false;
@@ -164,11 +162,10 @@
         };
 
         /* =========================================
-           SYSTÈME DE CONNEXION (CODE CACHÉ)
+           CONNEXION SECRÈTE (270511 = MjcwNTEx)
            ========================================= */
         function verifierCode() {
             let input = document.getElementById('pin-input').value;
-            // "MjcwNTEx" est la version cryptée (Base64) de 270511
             if (btoa(input) === "MjcwNTEx") {
                 document.getElementById('login-screen').style.display = "none";
                 document.getElementById('dashboard').style.display = "block";
@@ -179,69 +176,107 @@
             }
         }
 
-        // Permet d'appuyer sur Entrée pour valider
         document.getElementById("pin-input").addEventListener("keypress", function(event) {
             if (event.key === "Enter") { event.preventDefault(); verifierCode(); }
         });
 
         /* =========================================
-           GÉNÉRATEUR D'ARGENT SIMULÉ (15 JOURS)
+           GÉNÉRATION INTELLIGENTE ET PERSISTANTE
            ========================================= */
         function chargerStatistiques() {
-            let today = new Date();
-            today.setHours(0,0,0,0); // On remet l'heure à minuit pour calculer juste les jours
-            let timeToday = today.getTime();
+            let now = new Date();
+            let todayMidnight = new Date();
+            todayMidnight.setHours(0,0,0,0);
+            let timeTodayMidnight = todayMidnight.getTime();
 
-            // On récupère les données dans le stockage du navigateur
+            // ----------------------------------------------------
+            // 1. CALCUL DE L'ARGENT (Même logique qu'avant)
+            // ----------------------------------------------------
             let dateDebut = localStorage.getItem('bs_start_date');
             let revenuActuel = localStorage.getItem('bs_revenue');
-            let derniereMiseAJour = localStorage.getItem('bs_last_update');
+            let derniereMajArgent = localStorage.getItem('bs_last_update');
 
-            // Si c'est la toute première fois qu'on ouvre l'admin
             if (!dateDebut) {
-                dateDebut = timeToday;
-                revenuActuel = 15; // Départ à 15 DT
-                derniereMiseAJour = timeToday;
-                
+                dateDebut = timeTodayMidnight;
+                revenuActuel = 15;
+                derniereMajArgent = timeTodayMidnight;
                 localStorage.setItem('bs_start_date', dateDebut);
                 localStorage.setItem('bs_revenue', revenuActuel);
-                localStorage.setItem('bs_last_update', derniereMiseAJour);
+                localStorage.setItem('bs_last_update', derniereMajArgent);
             } else {
                 dateDebut = parseInt(dateDebut);
                 revenuActuel = parseInt(revenuActuel);
-                derniereMiseAJour = parseInt(derniereMiseAJour);
+                derniereMajArgent = parseInt(derniereMajArgent);
 
-                // Calcul du nombre de jours passés
-                let joursDepuisDebut = Math.floor((timeToday - dateDebut) / (1000 * 3600 * 24));
-                let joursDepuisDerniereMaj = Math.floor((timeToday - derniereMiseAJour) / (1000 * 3600 * 24));
+                let joursDepuisDebut = Math.floor((timeTodayMidnight - dateDebut) / (1000 * 3600 * 24));
+                let joursDepuisDerniereMaj = Math.floor((timeTodayMidnight - derniereMajArgent) / (1000 * 3600 * 24));
 
-                // Si on dépasse 15 jours, on réinitialise à 15 DT !
                 if (joursDepuisDebut >= 15) {
-                    dateDebut = timeToday;
+                    dateDebut = timeTodayMidnight;
                     revenuActuel = 15;
-                    derniereMiseAJour = timeToday;
+                    derniereMajArgent = timeTodayMidnight;
                     localStorage.setItem('bs_start_date', dateDebut);
-                } 
-                // Sinon, s'il s'est passé de nouveaux jours depuis la dernière ouverture
-                else if (joursDepuisDerniereMaj > 0) {
-                    // On ajoute entre 10 et 75 DT par jour manqué
+                } else if (joursDepuisDerniereMaj > 0) {
                     for(let i=0; i<joursDepuisDerniereMaj; i++) {
                         revenuActuel += Math.floor(Math.random() * (75 - 10 + 1)) + 10;
                     }
-                    derniereMiseAJour = timeToday;
-                    localStorage.setItem('bs_last_update', derniereMiseAJour);
+                    derniereMajArgent = timeTodayMidnight;
+                    localStorage.setItem('bs_last_update', derniereMajArgent);
                 }
-                
-                // On sauvegarde le nouveau montant
                 localStorage.setItem('bs_revenue', revenuActuel);
             }
-
-            // Affichage de l'argent calculé
             document.getElementById('revenue-val').innerText = revenuActuel + " DT";
 
-            // Génération de fausses statistiques réalistes pour les autres widgets
-            document.getElementById('visitors-val').innerText = Math.floor(Math.random() * 80) + 40; // Entre 40 et 120 visiteurs
-            document.getElementById('orders-val').innerText = Math.floor(Math.random() * 4); // Entre 0 et 3 commandes en attente
+            // ----------------------------------------------------
+            // 2. CALCUL DES VISITEURS (Heure par Heure)
+            // ----------------------------------------------------
+            let currentHour = now.getHours();
+            
+            // On enregistre le jour actuel pour réinitialiser les visiteurs à 8h le lendemain
+            let recordedDay = localStorage.getItem('bs_visit_day');
+            let currentDay = now.getDate();
+            
+            let visiteursActuels = localStorage.getItem('bs_visitors');
+            let derniereHeureCalculee = localStorage.getItem('bs_last_hour_calc');
+
+            // Si on est un nouveau jour, on réinitialise tout (ou si c'est la 1ere fois)
+            if (recordedDay != currentDay) {
+                visiteursActuels = 0;
+                derniereHeureCalculee = 7; // On part du principe qu'avant 8h, c'est l'heure "7"
+                localStorage.setItem('bs_visit_day', currentDay);
+            } else {
+                visiteursActuels = parseInt(visiteursActuels) || 0;
+                derniereHeureCalculee = parseInt(derniereHeureCalculee) || 7;
+            }
+
+            // Si on est entre 8h et 23h (ou plus tard)
+            if (currentHour >= 8) {
+                // Combien d'heures sont passées depuis le dernier calcul ?
+                let heuresPassees = currentHour - derniereHeureCalculee;
+                
+                if (heuresPassees > 0) {
+                    // Pour chaque heure passée, on ajoute entre 2 et 13 visiteurs
+                    for(let i = 0; i < heuresPassees; i++) {
+                        visiteursActuels += Math.floor(Math.random() * (13 - 2 + 1)) + 2;
+                    }
+                    // On met à jour l'heure de la dernière vérification
+                    derniereHeureCalculee = currentHour;
+                    
+                    // On sauvegarde dans le navigateur pour résister au rafraîchissement (F5)
+                    localStorage.setItem('bs_visitors', visiteursActuels);
+                    localStorage.setItem('bs_last_hour_calc', derniereHeureCalculee);
+                }
+            } else {
+                // S'il n'est pas encore 8h du matin, le compteur reste à 0
+                visiteursActuels = 0;
+            }
+
+            document.getElementById('visitors-val').innerText = visiteursActuels;
+
+            // ----------------------------------------------------
+            // 3. WIDGET COMMANDES (Reste aléatoire à chaque ouverture)
+            // ----------------------------------------------------
+            document.getElementById('orders-val').innerText = Math.floor(Math.random() * 4);
         }
     </script>
 </body>
