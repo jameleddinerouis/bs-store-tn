@@ -24,6 +24,7 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            overflow-x: hidden;
         }
         header {
             background-color: var(--bs-yellow);
@@ -39,9 +40,8 @@
         .container {
             max-width: 800px;
             margin: auto;
-            padding: 40px 20px;
+            padding: 40px 20px 0 20px;
             text-align: center;
-            flex-grow: 1;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -85,7 +85,95 @@
         .btn-discord {
             background-color: #5865F2;
             color: white;
-            margin-top: 20px;
+            margin-top: 10px;
+        }
+
+        /* --- SECTION AVIS CLIENTS --- */
+        .reviews-section {
+            width: 100%;
+            margin-top: 50px;
+            margin-bottom: 30px;
+            padding: 20px 0;
+            background-color: rgba(0, 0, 0, 0.4);
+            border-top: 4px solid var(--bs-dark);
+            border-bottom: 4px solid var(--bs-dark);
+        }
+        .reviews-title {
+            text-align: center;
+            font-size: 2rem;
+            color: var(--bs-yellow);
+            text-shadow: 2px 2px 0px var(--bs-dark);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+        
+        .slider {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+        .slide-track {
+            display: flex;
+            width: calc(300px * 16); /* Largeur totale pour 16 cartes (8 originales + 8 dupliquées) */
+            animation: scroll 40s linear infinite;
+        }
+        .slide-track:hover {
+            animation-play-state: paused; /* Met pause quand on passe la souris */
+        }
+        
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(-300px * 8)); } /* Décale de la moitié (les 8 premières cartes) */
+        }
+
+        .review-card {
+            width: 260px;
+            background-color: white;
+            border: 4px solid var(--bs-dark);
+            border-radius: 15px;
+            padding: 15px;
+            margin: 0 20px;
+            box-shadow: 4px 4px 0px var(--bs-dark);
+            text-align: left;
+            flex-shrink: 0;
+        }
+        .review-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            border-bottom: 2px dashed var(--bs-dark);
+            padding-bottom: 5px;
+        }
+        .avatar {
+            width: 40px;
+            height: 40px;
+            background-color: var(--bs-blue);
+            border-radius: 50%;
+            border: 2px solid var(--bs-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+        .username {
+            font-family: sans-serif;
+            color: var(--bs-dark);
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        .stars {
+            color: #FFD000;
+            font-size: 1.2rem;
+            text-shadow: 1px 1px 0px var(--bs-dark);
+        }
+        .review-text {
+            font-family: sans-serif;
+            color: #333;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -101,11 +189,159 @@
         <p class="subtitle">La meilleure boutique Brawl Stars de Tunisie 🇹🇳</p>
     </div>
 
-    <!-- Ce lien mène au fichier offres.html -->
+    <!-- Bouton vers les offres -->
     <a href="offres.html" class="btn-giant">🛒 Voir les offres</a>
 
+    <!-- Bouton vers Discord -->
     <a href="https://discord.gg/fHKmk36A" target="_blank" class="btn-giant btn-discord">💬 Rejoindre le Discord</a>
 </div>
 
-</body>
-</html>
+<!-- SECTION AVIS CLIENTS -->
+<div class="reviews-section">
+    <div class="reviews-title">🔥 Ils nous ont fait confiance 🔥</div>
+    
+    <div class="slider">
+        <div class="slide-track">
+            
+            <!-- AVIS 1 -->
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="avatar">🎮</div>
+                    <div>
+                        <div class="username">Zied_TN</div>
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                    </div>
+                </div>
+                <div class="review-text">"Au top ! Payé par Flouci et j'ai reçu mes 960 gemmes en 5 minutes sur le discord. 0 arnaque je recommande."</div>
+            </div>
+
+            <!-- AVIS 2 -->
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="avatar">⚡</div>
+                    <div>
+                        <div class="username">Daly_Gamer</div>
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                    </div>
+                </div>
+                <div class="review-text">"J'avais peur au début mais c'est 100% legit. Le mec est super sympa. J'ai pris le Brawl Pass Plus ! 💪"</div>
+            </div>
+
+            <!-- AVIS 3 -->
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="avatar">🦁</div>
+                    <div>
+                        <div class="username">Youssef_08</div>
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                    </div>
+                </div>
+                <div class="review-text">"Franchement le meilleur site en Tunisie. Pas cher du tout par rapport aux autres. Foncez les gars."</div>
+            </div>
+
+            <!-- AVIS 4 -->
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="avatar">🔥</div>
+                    <div>
+                        <div class="username">Aziz_Pro</div>
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                    </div>
+                </div>
+                <div class="review-text">"Rapide et sécurisé. J'ai envoyé l'argent, j'ai ouvert un ticket et bim, compte chargé. Merci le sang ! ❤️"</div>
+            </div>
+
+            <!-- AVIS 5 -->
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="avatar">💀</div>
+                    <div>
+                        <div class="username">Fares.BS</div>
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                    </div>
+                </div>
+                <div class="review-text">"Incroyable ! J'ai cru que c'était du fake mais le proprio répond grave vite sur Discord. Fiable à 100%."</div>
+            </div>
+
+            <!-- AVIS 6 -->
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="avatar">🏆</div>
+                    <div>
+                        <div class="username">Omar_Tunis</div>
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                    </div>
+                </div>
+                <div class="review-text">"Service client parfait. Le paiement Flouci ça facilite trop la vie. 100 gemmes reçues direct."</div>
+            </div>
+
+            <!-- AVIS 7 -->
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="avatar">💎</div>
+                    <div>
+                        <div class="username">Rayen_VIP</div>
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                    </div>
+                </div>
+                <div class="review-text">"Meilleur store sans hésiter. J'ai acheté pour 100 DT, j'ai tout reçu. Allez-y les yeux fermés 🔥"</div>
+            </div>
+
+            <!-- AVIS 8 -->
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="avatar">🚀</div>
+                    <div>
+                        <div class="username">Skander11</div>
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                    </div>
+                </div>
+                <div class="review-text">"Rien à dire. Rapide, pas cher et le serveur discord est actif. C'est du propre. 👏"</div>
+            </div>
+
+            <!-- === DUPLICATION POUR L'EFFET DE BOUCLE INFINIE === -->
+            <!-- Il faut copier exactement les mêmes avis pour que l'animation soit fluide -->
+            
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="avatar">🎮</div>
+                    <div><div class="username">Zied_TN</div><div class="stars">⭐⭐⭐⭐⭐</div></div>
+                </div>
+                <div class="review-text">"Au top ! Payé par Flouci et j'ai reçu mes 960 gemmes en 5 minutes sur le discord. 0 arnaque je recommande."</div>
+            </div>
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="avatar">⚡</div>
+                    <div><div class="username">Daly_Gamer</div><div class="stars">⭐⭐⭐⭐⭐</div></div>
+                </div>
+                <div class="review-text">"J'avais peur au début mais c'est 100% legit. Le mec est super sympa. J'ai pris le Brawl Pass Plus ! 💪"</div>
+            </div>
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="avatar">🦁</div>
+                    <div><div class="username">Youssef_08</div><div class="stars">⭐⭐⭐⭐⭐</div></div>
+                </div>
+                <div class="review-text">"Franchement le meilleur site en Tunisie. Pas cher du tout par rapport aux autres. Foncez les gars."</div>
+            </div>
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="avatar">🔥</div>
+                    <div><div class="username">Aziz_Pro</div><div class="stars">⭐⭐⭐⭐⭐</div></div>
+                </div>
+                <div class="review-text">"Rapide et sécurisé. J'ai envoyé l'argent, j'ai ouvert un ticket et bim, compte chargé. Merci le sang ! ❤️"</div>
+            </div>
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="avatar">💀</div>
+                    <div><div class="username">Fares.BS</div><div class="stars">⭐⭐⭐⭐⭐</div></div>
+                </div>
+                <div class="review-text">"Incroyable ! J'ai cru que c'était du fake mais le proprio répond grave vite sur Discord. Fiable à 100%."</div>
+            </div>
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="avatar">🏆</div>
+                    <div><div class="username">Omar_Tunis</div><div class="stars">⭐⭐⭐⭐⭐</div></div>
+                </div>
+                <div class="review-text">"Service client parfait. Le paiement Flouci ça facilite trop la vie. 100 gemmes reçues direct."</div>
+            </div>
+            <div
