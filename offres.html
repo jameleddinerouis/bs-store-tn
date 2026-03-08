@@ -36,19 +36,32 @@
             text-shadow: 2px 2px 0px white;
             letter-spacing: 2px;
             position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
+        
+        /* NOUVEAU STYLE DU BOUTON RETOUR (COMME SUR TON IMAGE) */
         .back-btn {
             position: absolute;
             left: 20px;
-            top: 25px;
             background-color: var(--bs-dark);
             color: white;
-            padding: 10px 15px;
-            font-size: 1.2rem;
+            padding: 8px 25px;
+            font-size: 1.5rem;
             text-decoration: none;
-            border-radius: 10px;
-            border: 3px solid white;
+            border-radius: 12px;
+            border: 4px solid white;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: transform 0.1s;
         }
+        .back-btn:hover {
+            transform: scale(1.05);
+        }
+
         .container {
             max-width: 1000px;
             margin: 0 auto;
@@ -104,30 +117,49 @@
             transition: 0.1s;
             display: inline-block;
             text-transform: uppercase;
+            border: none; /* Reset pour les boutons */
+            border: 3px solid var(--bs-dark);
         }
         .btn:active {
             transform: translate(3px, 3px);
             box-shadow: 0px 0px 0px var(--bs-dark);
         }
+        
+        /* CACHER LA SECTION PAIEMENT PAR DÉFAUT */
         .payment-section {
-            background-color: var(--bs-yellow);
+            display: none; /* Caché au début */
+            background-color: white;
             color: var(--bs-dark);
             border: 6px solid var(--bs-dark);
             border-radius: 20px;
-            padding: 30px;
+            padding: 40px;
             margin-top: 50px;
             text-align: center;
             box-shadow: 8px 8px 0px var(--bs-dark);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
+        .payment-section.active {
+            display: block; /* S'affiche quand on ajoute la classe via Javascript */
+            animation: popIn 0.3s ease-out forwards;
+        }
+        
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
         .payment-section h2 {
             font-size: 2.5rem;
             margin-top: 0;
             color: var(--bs-red);
-            text-shadow: 1px 1px 0px white;
+            text-shadow: 1px 1px 0px var(--bs-dark);
+            text-transform: uppercase;
         }
         .payment-step {
             font-size: 1.3rem;
-            margin: 10px 0;
+            margin: 15px 0;
             font-family: sans-serif;
             font-weight: bold;
         }
@@ -149,9 +181,9 @@
 <body>
 
 <header>
-    <!-- Ce bouton ramène à l'accueil (index.html) -->
-    <a href="index.html" class="back-btn">⬅ Retour</a>
-    ⭐ OFFRES BRAWL STARS ⭐
+    <!-- Nouveau bouton de retour style cartoon -->
+    <a href="index.html" class="back-btn">⬅ RETOUR</a>
+    <span style="margin-left: auto; margin-right: auto;">⭐ OFFRES BRAWL STARS ⭐</span>
 </header>
 
 <div class="container">
@@ -162,8 +194,8 @@
             </div>
             <div class="card-title">100 Gemmes</div>
             <div class="card-price">10 DT</div>
-            <!-- Quand on clique ici, ça descend automatiquement vers la section paiement de cette page -->
-            <a href="#paiement" class="btn">Acheter</a>
+            <!-- On utilise onclick pour déclencher l'affichage du paiement -->
+            <button onclick="showPayment()" class="btn">Acheter</button>
         </div>
         
         <div class="card">
@@ -172,7 +204,7 @@
             </div>
             <div class="card-title">960 Gemmes</div>
             <div class="card-price">50 DT</div>
-            <a href="#paiement" class="btn">Acheter</a>
+            <button onclick="showPayment()" class="btn">Acheter</button>
         </div>
 
         <div class="card">
@@ -181,7 +213,7 @@
             </div>
             <div class="card-title">2000 Gemmes</div>
             <div class="card-price">100 DT</div>
-            <a href="#paiement" class="btn">Acheter</a>
+            <button onclick="showPayment()" class="btn">Acheter</button>
         </div>
 
         <div class="card">
@@ -190,7 +222,7 @@
             </div>
             <div class="card-title">Pass Normal</div>
             <div class="card-price">15 DT</div>
-            <a href="#paiement" class="btn">Acheter</a>
+            <button onclick="showPayment()" class="btn">Acheter</button>
         </div>
 
         <div class="card">
@@ -199,30 +231,41 @@
             </div>
             <div class="card-title">Pass Plus</div>
             <div class="card-price">25 DT</div>
-            <a href="#paiement" class="btn">Acheter</a>
+            <button onclick="showPayment()" class="btn">Acheter</button>
         </div>
     </div>
 
-    <!-- Section Paiement (en bas de la page des offres) -->
+    <!-- Section Paiement qui apparaîtra comme une "nouvelle page" -->
     <div id="paiement" class="payment-section">
-        <h2>💳 Paiement rapide avec Flouci</h2>
-        <p class="payment-step">1️⃣ Cliquez sur le bouton ci-dessous pour payer directement via Flouci.</p>
+        <h2>💳 Procédure de Paiement</h2>
+        <p class="payment-step">1️⃣ Cliquez sur le bouton jaune pour payer via Flouci.</p>
         
-        <!-- PENSE À METTRE TON LIEN FLOUCI ICI -->
-        <a href="TON_LIEN_FLOUCI" target="_blank" class="btn" style="background-color: white; color: var(--bs-blue); font-size: 1.8rem; padding: 15px 30px; margin: 20px 0;">
+        <!-- TON LIEN FLOUCI ICI -->
+        <a href="TON_LIEN_FLOUCI" target="_blank" class="btn" style="background-color: var(--bs-yellow); color: var(--bs-dark); font-size: 1.8rem; padding: 15px 30px; margin: 20px 0;">
             Payer avec Flouci 💸
         </a>
         
-        <p class="payment-step">2️⃣ Prenez une capture d'écran de la confirmation de paiement.</p>
-        <p class="payment-step">3️⃣ Rejoignez notre Discord et ouvrez un ticket avec votre capture pour recevoir votre commande !</p>
+        <p class="payment-step">2️⃣ Prenez une capture d'écran du paiement.</p>
+        <p class="payment-step">3️⃣ Rejoignez notre Discord et ouvrez un ticket pour recevoir vos gemmes !</p>
         <br>
-        <a href="https://discord.gg/fHKmk36A" target="_blank" class="btn discord-btn">Rejoindre le serveur Discord</a>
+        <a href="https://discord.gg/fHKmk36A" target="_blank" class="btn discord-btn">Ouvrir un ticket Discord</a>
     </div>
 
     <footer>
         © 2026 BS Store TN - Ce site n'est pas affilié à Supercell.
     </footer>
 </div>
+
+<!-- Petit script pour gérer l'affichage de la zone de paiement -->
+<script>
+    function showPayment() {
+        var paymentSection = document.getElementById("paiement");
+        // Affiche la section avec une petite animation
+        paymentSection.classList.add("active");
+        // Fait défiler la page automatiquement et doucement vers le panneau de paiement
+        paymentSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+</script>
 
 </body>
 </html>
