@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BS Store TN - Gemmes et Brawl Pass</title>
-    <!-- Importation de la police style Brawl Stars -->
+    <title>BS Store TN - Offres</title>
     <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -13,13 +12,15 @@
             --bs-red: #E63946;
             --bs-dark: #1D1D1D;
         }
+        html {
+            scroll-behavior: smooth; /* Permet un défilement fluide vers le paiement */
+        }
         body {
             font-family: 'Lilita One', cursive;
             background-color: var(--bs-blue);
             color: white;
             margin: 0;
             padding: 0;
-            /* Motif de fond style Brawl Stars */
             background-image: radial-gradient(circle, #1a65e0 10%, transparent 11%), radial-gradient(circle, #1a65e0 10%, transparent 11%);
             background-size: 30px 30px;
             background-position: 0 0, 15px 15px;
@@ -34,23 +35,31 @@
             font-size: 3rem;
             text-shadow: 2px 2px 0px white;
             letter-spacing: 2px;
+            position: relative;
+        }
+        .back-btn {
+            position: absolute;
+            left: 20px;
+            top: 25px;
+            background-color: var(--bs-dark);
+            color: white;
+            padding: 10px 15px;
+            font-size: 1.2rem;
+            text-decoration: none;
+            border-radius: 10px;
+            border: 3px solid white;
         }
         .container {
             max-width: 1000px;
             margin: 0 auto;
             padding: 20px;
         }
-        .intro {
-            text-align: center;
-            margin-bottom: 40px;
-            font-size: 1.5rem;
-            text-shadow: 2px 2px 0px var(--bs-dark);
-        }
         .grid {
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
             justify-content: center;
+            margin-top: 30px;
         }
         .card {
             background-color: white;
@@ -68,7 +77,6 @@
             box-shadow: 10px 10px 0px var(--bs-dark);
         }
         .card-img {
-            font-size: 4rem;
             margin-bottom: 10px;
         }
         .card-title {
@@ -123,19 +131,8 @@
             font-family: sans-serif;
             font-weight: bold;
         }
-        .flouci-number {
-            font-size: 3rem;
-            background: white;
-            padding: 10px 20px;
-            border: 5px dashed var(--bs-dark);
-            border-radius: 15px;
-            display: inline-block;
-            margin: 15px 0;
-            color: var(--bs-blue);
-            letter-spacing: 3px;
-        }
         .discord-btn {
-            background-color: #5865F2; /* Couleur officielle de Discord */
+            background-color: #5865F2;
             color: white;
             font-size: 1.5rem;
             margin-top: 15px;
@@ -152,16 +149,11 @@
 <body>
 
 <header>
-    ⭐ BS Store TN ⭐
+    <a href="index.html" class="back-btn">⬅ Retour</a>
+    ⭐ OFFRES BRAWL STARS ⭐
 </header>
 
 <div class="container">
-    <div class="intro">
-        <p>Achetez vos Gemmes et Brawl Pass au meilleur prix en Tunisie ! 🔥</p>
-    </div>
-
-    <!-- Section des produits -->
-                <!-- Section des produits -->
     <div class="grid">
         <div class="card">
             <div class="card-img">
@@ -169,6 +161,7 @@
             </div>
             <div class="card-title">100 Gemmes</div>
             <div class="card-price">10 DT</div>
+            <!-- Le lien mène à l'ancre #paiement tout en bas -->
             <a href="#paiement" class="btn">Acheter</a>
         </div>
         
@@ -209,24 +202,21 @@
         </div>
     </div>
 
-
     <!-- Section Paiement -->
-        <!-- Section Paiement -->
     <div id="paiement" class="payment-section">
         <h2>💳 Paiement rapide avec Flouci</h2>
         <p class="payment-step">1️⃣ Cliquez sur le bouton ci-dessous pour payer directement via Flouci.</p>
         
-        <!-- Remplace TON_LIEN_FLOUCI par ton vrai lien de paiement -->
+        <!-- N'oublie pas de remettre ton vrai lien Flouci ici ! -->
         <a href="TON_LIEN_FLOUCI" target="_blank" class="btn" style="background-color: white; color: var(--bs-blue); font-size: 1.8rem; padding: 15px 30px; margin: 20px 0;">
             Payer avec Flouci 💸
         </a>
         
         <p class="payment-step">2️⃣ Prenez une capture d'écran de la confirmation de paiement.</p>
-        <p class="payment-step">3️⃣ Rejoignez notre Discord et ouvrez un ticket avec votre capture pour recevoir votre commande !</p>
+        <p class="payment-step">3️⃣ Rejoignez notre Discord et ouvrez un ticket avec votre capture !</p>
         <br>
         <a href="https://discord.gg/fHKmk36A" target="_blank" class="btn discord-btn">Rejoindre le serveur Discord</a>
     </div>
-
 
     <footer>
         © 2026 BS Store TN - Ce site n'est pas affilié à Supercell.
