@@ -25,7 +25,30 @@
             flex-direction: column;
             min-height: 100vh;
             overflow-x: hidden;
+            position: relative;
         }
+
+        /* --- FOND ANIMÉ (ÉTOILES) --- */
+        .stars-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; /* Pour ne pas gêner les clics */
+            z-index: -1; /* Reste derrière tout le reste */
+            overflow: hidden;
+        }
+        .star {
+            position: absolute;
+            color: rgba(255, 208, 0, 0.4);
+            font-size: 20px;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-50px) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+
         header {
             background-color: var(--bs-yellow);
             color: var(--bs-dark);
@@ -36,151 +59,74 @@
             font-size: 3rem;
             text-shadow: 2px 2px 0px white;
             letter-spacing: 2px;
-        }
-        .container {
-            max-width: 800px;
-            margin: auto;
-            padding: 40px 20px 0 20px;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 40px;
-        }
-        h1 {
-            font-size: 3.5rem;
-            margin: 0;
-            text-shadow: 3px 3px 0px var(--bs-dark);
-        }
-        p.subtitle {
-            font-size: 1.8rem;
-            margin-top: 10px;
-            text-shadow: 2px 2px 0px var(--bs-dark);
-        }
-        .btn-giant {
-            background-color: var(--bs-yellow);
-            color: var(--bs-dark);
-            text-decoration: none;
-            padding: 20px 40px;
-            font-size: 2rem;
-            border: 5px solid var(--bs-dark);
-            border-radius: 15px;
-            box-shadow: 6px 6px 0px var(--bs-dark);
-            cursor: pointer;
-            transition: 0.2s;
-            display: inline-block;
-            text-transform: uppercase;
-            width: 80%;
-            max-width: 400px;
-        }
-        .btn-giant:hover {
-            transform: translateY(-5px);
-            box-shadow: 8px 8px 0px var(--bs-dark);
-        }
-        .btn-giant:active {
-            transform: translate(4px, 4px);
-            box-shadow: 0px 0px 0px var(--bs-dark);
-        }
-        .btn-discord {
-            background-color: #5865F2;
-            color: white;
-            margin-top: 10px;
+            position: relative; /* Nécessaire pour placer le statut */
         }
 
-        /* --- SECTION AVIS CLIENTS --- */
-        .reviews-section {
-            width: 100%;
-            margin-top: 50px;
-            margin-bottom: 30px;
-            padding: 20px 0;
-            background-color: rgba(0, 0, 0, 0.4);
-            border-top: 4px solid var(--bs-dark);
-            border-bottom: 4px solid var(--bs-dark);
-        }
-        .reviews-title {
-            text-align: center;
-            font-size: 2rem;
-            color: var(--bs-yellow);
-            text-shadow: 2px 2px 0px var(--bs-dark);
-            margin-bottom: 20px;
-            text-transform: uppercase;
-        }
-        
-        .slider {
-            width: 100%;
-            overflow: hidden;
-            position: relative;
-        }
-        .slide-track {
-            display: flex;
-            width: calc(300px * 16);
-            animation: scroll 40s linear infinite;
-        }
-        .slide-track:hover {
-            animation-play-state: paused;
-        }
-        
-        @keyframes scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(calc(-300px * 8)); }
-        }
-
-        .review-card {
-            width: 260px;
+        /* --- STATUT EN LIGNE --- */
+        .status-badge {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
             background-color: white;
-            border: 4px solid var(--bs-dark);
-            border-radius: 15px;
-            padding: 15px;
-            margin: 0 20px;
-            box-shadow: 4px 4px 0px var(--bs-dark);
-            text-align: left;
-            flex-shrink: 0;
-        }
-        .review-header {
+            border: 3px solid var(--bs-dark);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 1rem;
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-            border-bottom: 2px dashed var(--bs-dark);
-            padding-bottom: 5px;
+            gap: 8px;
+            box-shadow: 3px 3px 0px var(--bs-dark);
+            text-shadow: none; /* Enlève l'ombre du texte du header */
         }
-        .avatar {
-            width: 40px;
-            height: 40px;
-            background-color: var(--bs-blue);
+        .dot {
+            width: 12px;
+            height: 12px;
+            background-color: #00FF00; /* Vert par défaut */
             border-radius: 50%;
             border: 2px solid var(--bs-dark);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.5rem;
+            animation: pulse 2s infinite;
         }
-        .username {
-            font-family: sans-serif;
-            color: var(--bs-dark);
-            font-weight: bold;
-            font-size: 1.1rem;
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0, 255, 0, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(0, 255, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 255, 0, 0); }
         }
-        .stars {
-            color: #FFD000;
-            font-size: 1.2rem;
-            text-shadow: 1px 1px 0px var(--bs-dark);
-        }
-        .review-text {
-            font-family: sans-serif;
-            color: #333;
-            font-size: 0.95rem;
-            line-height: 1.4;
-            font-weight: bold;
-        }
+
+        /* Reste du CSS (identique à avant) */
+        .container { max-width: 800px; margin: auto; padding: 40px 20px 0 20px; text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 40px; }
+        h1 { font-size: 3.5rem; margin: 0; text-shadow: 3px 3px 0px var(--bs-dark); }
+        p.subtitle { font-size: 1.8rem; margin-top: 10px; text-shadow: 2px 2px 0px var(--bs-dark); }
+        .btn-giant { background-color: var(--bs-yellow); color: var(--bs-dark); text-decoration: none; padding: 20px 40px; font-size: 2rem; border: 5px solid var(--bs-dark); border-radius: 15px; box-shadow: 6px 6px 0px var(--bs-dark); cursor: pointer; transition: 0.2s; display: inline-block; text-transform: uppercase; width: 80%; max-width: 400px; }
+        .btn-giant:hover { transform: translateY(-5px); box-shadow: 8px 8px 0px var(--bs-dark); }
+        .btn-giant:active { transform: translate(4px, 4px); box-shadow: 0px 0px 0px var(--bs-dark); }
+        .btn-discord { background-color: #5865F2; color: white; margin-top: 10px; }
+        .reviews-section { width: 100%; margin-top: 50px; margin-bottom: 30px; padding: 20px 0; background-color: rgba(0, 0, 0, 0.4); border-top: 4px solid var(--bs-dark); border-bottom: 4px solid var(--bs-dark); }
+        .reviews-title { text-align: center; font-size: 2rem; color: var(--bs-yellow); text-shadow: 2px 2px 0px var(--bs-dark); margin-bottom: 20px; text-transform: uppercase; }
+        .slider { width: 100%; overflow: hidden; position: relative; }
+        .slide-track { display: flex; width: calc(300px * 16); animation: scroll 40s linear infinite; }
+        .slide-track:hover { animation-play-state: paused; }
+        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(calc(-300px * 8)); } }
+        .review-card { width: 260px; background-color: white; border: 4px solid var(--bs-dark); border-radius: 15px; padding: 15px; margin: 0 20px; box-shadow: 4px 4px 0px var(--bs-dark); text-align: left; flex-shrink: 0; }
+        .review-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; border-bottom: 2px dashed var(--bs-dark); padding-bottom: 5px; }
+        .avatar { width: 40px; height: 40px; background-color: var(--bs-blue); border-radius: 50%; border: 2px solid var(--bs-dark); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; }
+        .username { font-family: sans-serif; color: var(--bs-dark); font-weight: bold; font-size: 1.1rem; }
+        .stars { color: #FFD000; font-size: 1.2rem; text-shadow: 1px 1px 0px var(--bs-dark); }
+        .review-text { font-family: sans-serif; color: #333; font-size: 0.95rem; line-height: 1.4; font-weight: bold; }
     </style>
 </head>
 <body>
 
+<!-- Fond animé -->
+<div class="stars-bg" id="stars-container"></div>
+
 <header>
     ⭐ BS Store TN ⭐
+    <!-- Badge Statut -->
+    <div class="status-badge" id="status-badge">
+        <div class="dot" id="status-dot"></div>
+        <span id="status-text">En ligne</span>
+    </div>
 </header>
 
 <div class="container">
@@ -188,178 +134,67 @@
         <h1>BIENVENUE SUR BS STORE</h1>
         <p class="subtitle">La meilleure boutique Brawl Stars de Tunisie 🇹🇳</p>
     </div>
-
-    <!-- Bouton vers les offres -->
     <a href="offres.html" class="btn-giant">🛒 Voir les offres</a>
-
-    <!-- Bouton vers Discord -->
     <a href="https://discord.gg/fHKmk36A" target="_blank" class="btn-giant btn-discord">💬 Rejoindre le Discord</a>
 </div>
 
-<!-- SECTION AVIS CLIENTS -->
+<!-- SECTION AVIS (Même qu'avant) -->
 <div class="reviews-section">
     <div class="reviews-title">🔥 Ils nous ont fait confiance 🔥</div>
-    
     <div class="slider">
         <div class="slide-track">
-            
-            <!-- AVIS 1 -->
-            <div class="review-card">
-                <div class="review-header">
-                    <div class="avatar">🎮</div>
-                    <div>
-                        <div class="username">Zied_TN</div>
-                        <div class="stars">⭐⭐⭐⭐⭐</div>
-                    </div>
-                </div>
-                <div class="review-text">"wlh au debut j'avais peur de me faire scam mais vrmt mec super reglo. payé sur flouci et recu les gems en 2 min"</div>
-            </div>
-
-            <!-- AVIS 2 -->
-            <div class="review-card">
-                <div class="review-header">
-                    <div class="avatar">⚡</div>
-                    <div>
-                        <div class="username">dalyx_99</div>
-                        <div class="stars">⭐⭐⭐⭐⭐</div>
-                    </div>
-                </div>
-                <div class="review-text">"c'est pas du fake les gars allez y. 100% safe g pris le pass plus l'admin repond direct sur le serv"</div>
-            </div>
-
-            <!-- AVIS 3 -->
-            <div class="review-card">
-                <div class="review-header">
-                    <div class="avatar">🦁</div>
-                    <div>
-                        <div class="username">YoussefBrl</div>
-                        <div class="stars">⭐⭐⭐⭐⭐</div>
-                    </div>
-                </div>
-                <div class="review-text">"ptdr les prix sont trop bien. meilleur store en tunisie, bsartek khouya continue comme ca 🔥"</div>
-            </div>
-
-            <!-- AVIS 4 -->
-            <div class="review-card">
-                <div class="review-header">
-                    <div class="avatar">🔥</div>
-                    <div>
-                        <div class="username">Aziz.216</div>
-                        <div class="stars">⭐⭐⭐⭐⭐</div>
-                    </div>
-                </div>
-                <div class="review-text">"je cherchais d gems grave lgtmps. j'ai envoye flouci et ouvert un ticket, c t reglé. ty le boss"</div>
-            </div>
-
-            <!-- AVIS 5 -->
-            <div class="review-card">
-                <div class="review-header">
-                    <div class="avatar">💀</div>
-                    <div>
-                        <div class="username">Fares_Ghost</div>
-                        <div class="stars">⭐⭐⭐⭐⭐</div>
-                    </div>
-                </div>
-                <div class="review-text">"jsp pour vous mais moi g tout recu. bcp mieux que les pages fb qui arnaquent lmaooo. safe a 100%"</div>
-            </div>
-
-            <!-- AVIS 6 -->
-            <div class="review-card">
-                <div class="review-header">
-                    <div class="avatar">🏆</div>
-                    <div>
-                        <div class="username">omar_tns</div>
-                        <div class="stars">⭐⭐⭐⭐⭐</div>
-                    </div>
-                </div>
-                <div class="review-text">"propre 👌 t'envoie la capture d'ecran sur discord et hop tas tes trucs. je reviendrai pr le prochain pass"</div>
-            </div>
-
-            <!-- AVIS 7 -->
-            <div class="review-card">
-                <div class="review-header">
-                    <div class="avatar">💎</div>
-                    <div>
-                        <div class="username">Rayen_Rmz</div>
-                        <div class="stars">⭐⭐⭐⭐⭐</div>
-                    </div>
-                </div>
-                <div class="review-text">"dinguerie wlh jpensais c t long mais mec est actif h24. 2000 gemmes securisées merci frero 🐐"</div>
-            </div>
-
-            <!-- AVIS 8 -->
-            <div class="review-card">
-                <div class="review-header">
-                    <div class="avatar">🚀</div>
-                    <div>
-                        <div class="username">Skander.X</div>
-                        <div class="stars">⭐⭐⭐⭐⭐</div>
-                    </div>
-                </div>
-                <div class="review-text">"c carre. mrc pour la rapidité wlh vous etes les boss. jvais dire a mes potes d'acheter ici mtn"</div>
-            </div>
-
-            <!-- === DUPLICATION POUR L'EFFET DE BOUCLE INFINIE === -->
-            <div class="review-card">
-                <div class="review-header">
-                    <div class="avatar">🎮</div>
-                    <div><div class="username">Zied_TN</div><div class="stars">⭐⭐⭐⭐⭐</div></div>
-                </div>
-                <div class="review-text">"wlh au debut j'avais peur de me faire scam mais vrmt mec super reglo. payé sur flouci et recu les gems en 2 min"</div>
-            </div>
-            <div class="review-card">
-                <div class="review-header">
-                    <div class="avatar">⚡</div>
-                    <div><div class="username">dalyx_99</div><div class="stars">⭐⭐⭐⭐⭐</div></div>
-                </div>
-                <div class="review-text">"c'est pas du fake les gars allez y. 100% safe g pris le pass plus l'admin repond direct sur le serv"</div>
-            </div>
-            <div class="review-card">
-                <div class="review-header">
-                    <div class="avatar">🦁</div>
-                    <div><div class="username">YoussefBrl</div><div class="stars">⭐⭐⭐⭐⭐</div></div>
-                </div>
-                <div class="review-text">"ptdr les prix sont trop bien. meilleur store en tunisie, bsartek khouya continue comme ca 🔥"</div>
-            </div>
-            <div class="review-card">
-                <div class="review-header">
-                    <div class="avatar">🔥</div>
-                    <div><div class="username">Aziz.216</div><div class="stars">⭐⭐⭐⭐⭐</div></div>
-                </div>
-                <div class="review-text">"je cherchais d gems grave lgtmps. j'ai envoye flouci et ouvert un ticket, c t reglé. ty le boss"</div>
-            </div>
-            <div class="review-card">
-                <div class="review-header">
-                    <div class="avatar">💀</div>
-                    <div><div class="username">Fares_Ghost</div><div class="stars">⭐⭐⭐⭐⭐</div></div>
-                </div>
-                <div class="review-text">"jsp pour vous mais moi g tout recu. bcp mieux que les pages fb qui arnaquent lmaooo. safe a 100%"</div>
-            </div>
-            <div class="review-card">
-                <div class="review-header">
-                    <div class="avatar">🏆</div>
-                    <div><div class="username">omar_tns</div><div class="stars">⭐⭐⭐⭐⭐</div></div>
-                </div>
-                <div class="review-text">"propre 👌 t'envoie la capture d'ecran sur discord et hop tas tes trucs. je reviendrai pr le prochain pass"</div>
-            </div>
-            <div class="review-card">
-                <div class="review-header">
-                    <div class="avatar">💎</div>
-                    <div><div class="username">Rayen_Rmz</div><div class="stars">⭐⭐⭐⭐⭐</div></div>
-                </div>
-                <div class="review-text">"dinguerie wlh jpensais c t long mais mec est actif h24. 2000 gemmes securisées merci frero 🐐"</div>
-            </div>
-            <div class="review-card">
-                <div class="review-header">
-                    <div class="avatar">🚀</div>
-                    <div><div class="username">Skander.X</div><div class="stars">⭐⭐⭐⭐⭐</div></div>
-                </div>
-                <div class="review-text">"c carre. mrc pour la rapidité wlh vous etes les boss. jvais dire a mes potes d'acheter ici mtn"</div>
-            </div>
-
+            <!-- AVIS -->
+            <div class="review-card"><div class="review-header"><div class="avatar">🎮</div><div><div class="username">Zied_TN</div><div class="stars">⭐⭐⭐⭐⭐</div></div></div><div class="review-text">"wlh au debut j'avais peur de me faire scam mais vrmt mec super reglo. payé sur flouci et recu les gems en 2 min"</div></div>
+            <div class="review-card"><div class="review-header"><div class="avatar">⚡</div><div><div class="username">dalyx_99</div><div class="stars">⭐⭐⭐⭐⭐</div></div></div><div class="review-text">"c'est pas du fake les gars allez y. 100% safe g pris le pass plus l'admin repond direct sur le serv"</div></div>
+            <div class="review-card"><div class="review-header"><div class="avatar">🦁</div><div><div class="username">YoussefBrl</div><div class="stars">⭐⭐⭐⭐⭐</div></div></div><div class="review-text">"ptdr les prix sont trop bien. meilleur store en tunisie, bsartek khouya continue comme ca 🔥"</div></div>
+            <div class="review-card"><div class="review-header"><div class="avatar">🔥</div><div><div class="username">Aziz.216</div><div class="stars">⭐⭐⭐⭐⭐</div></div></div><div class="review-text">"je cherchais d gems grave lgtmps. j'ai envoye flouci et ouvert un ticket, c t reglé. ty le boss"</div></div>
+            <div class="review-card"><div class="review-header"><div class="avatar">💀</div><div><div class="username">Fares_Ghost</div><div class="stars">⭐⭐⭐⭐⭐</div></div></div><div class="review-text">"jsp pour vous mais moi g tout recu. bcp mieux que les pages fb qui arnaquent lmaooo. safe a 100%"</div></div>
+            <div class="review-card"><div class="review-header"><div class="avatar">🏆</div><div><div class="username">omar_tns</div><div class="stars">⭐⭐⭐⭐⭐</div></div></div><div class="review-text">"propre 👌 t'envoie la capture d'ecran sur discord et hop tas tes trucs. je reviendrai pr le prochain pass"</div></div>
+            <div class="review-card"><div class="review-header"><div class="avatar">💎</div><div><div class="username">Rayen_Rmz</div><div class="stars">⭐⭐⭐⭐⭐</div></div></div><div class="review-text">"dinguerie wlh jpensais c t long mais mec est actif h24. 2000 gemmes securisées merci frero 🐐"</div></div>
+            <div class="review-card"><div class="review-header"><div class="avatar">🚀</div><div><div class="username">Skander.X</div><div class="stars">⭐⭐⭐⭐⭐</div></div></div><div class="review-text">"c carre. mrc pour la rapidité wlh vous etes les boss. jvais dire a mes potes d'acheter ici mtn"</div></div>
+            <!-- DOUBLONS POUR L'ANIMATION -->
+            <div class="review-card"><div class="review-header"><div class="avatar">🎮</div><div><div class="username">Zied_TN</div><div class="stars">⭐⭐⭐⭐⭐</div></div></div><div class="review-text">"wlh au debut j'avais peur de me faire scam mais vrmt mec super reglo. payé sur flouci et recu les gems en 2 min"</div></div>
+            <div class="review-card"><div class="review-header"><div class="avatar">⚡</div><div><div class="username">dalyx_99</div><div class="stars">⭐⭐⭐⭐⭐</div></div></div><div class="review-text">"c'est pas du fake les gars allez y. 100% safe g pris le pass plus l'admin repond direct sur le serv"</div></div>
+            <div class="review-card"><div class="review-header"><div class="avatar">🦁</div><div><div class="username">YoussefBrl</div><div class="stars">⭐⭐⭐⭐⭐</div></div></div><div class="review-text">"ptdr les prix sont trop bien. meilleur store en tunisie, bsartek khouya continue comme ca 🔥"</div></div>
+            <div class="review-card"><div class="review-header"><div class="avatar">🔥</div><div><div class="username">Aziz.216</div><div class="stars">⭐⭐⭐⭐⭐</div></div></div><div class="review-text">"je cherchais d gems grave lgtmps. j'ai envoye flouci et ouvert un ticket, c t reglé. ty le boss"</div></div>
+            <div class="review-card"><div class="review-header"><div class="avatar">💀</div><div><div class="username">Fares_Ghost</div><div class="stars">⭐⭐⭐⭐⭐</div></div></div><div class="review-text">"jsp pour vous mais moi g tout recu. bcp mieux que les pages fb qui arnaquent lmaooo. safe a 100%"</div></div>
+            <div class="review-card"><div class="review-header"><div class="avatar">🏆</div><div><div class="username">omar_tns</div><div class="stars">⭐⭐⭐⭐⭐</div></div></div><div class="review-text">"propre 👌 t'envoie la capture d'ecran sur discord et hop tas tes trucs. je reviendrai pr le prochain pass"</div></div>
+            <div class="review-card"><div class="review-header"><div class="avatar">💎</div><div><div class="username">Rayen_Rmz</div><div class="stars">⭐⭐⭐⭐⭐</div></div></div><div class="review-text">"dinguerie wlh jpensais c t long mais mec est actif h24. 2000 gemmes securisées merci frero 🐐"</div></div>
+            <div class="review-card"><div class="review-header"><div class="avatar">🚀</div><div><div class="username">Skander.X</div><div class="stars">⭐⭐⭐⭐⭐</div></div></div><div class="review-text">"c carre. mrc pour la rapidité wlh vous etes les boss. jvais dire a mes potes d'acheter ici mtn"</div></div>
         </div>
     </div>
 </div>
+
+<script>
+    // SCRIPT POUR GÉNÉRER LES ÉTOILES QUI TOMBENT
+    function createStars() {
+        const container = document.getElementById('stars-container');
+        for(let i = 0; i < 20; i++) {
+            let star = document.createElement('div');
+            star.className = 'star';
+            star.innerHTML = '⭐';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.animationDuration = (Math.random() * 5 + 5) + 's'; // Vitesse entre 5 et 10s
+            star.style.animationDelay = (Math.random() * 5) + 's'; // Délai aléatoire
+            container.appendChild(star);
+        }
+    }
+    createStars();
+
+    // SCRIPT POUR LE STATUT EN LIGNE (Vert entre 8h et 23h, Rouge la nuit)
+    function checkStatus() {
+        let hour = new Date().getHours();
+        let dot = document.getElementById('status-dot');
+        let text = document.getElementById('status-text');
+        
+        // Si c'est entre 23h et 8h du matin, on met hors ligne
+        if (hour >= 23 || hour < 8) {
+            dot.style.backgroundColor = "#FF0000"; // Rouge
+            text.innerText = "Hors ligne (Livraison demain)";
+        }
+    }
+    checkStatus();
+</script>
 
 </body>
 </html>
