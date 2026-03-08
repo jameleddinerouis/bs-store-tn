@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BS Store TN - Offres</title>
+    <title>BS Store TN - Accueil</title>
     <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -11,9 +11,6 @@
             --bs-yellow: #FFD000;
             --bs-red: #E63946;
             --bs-dark: #1D1D1D;
-        }
-        html {
-            scroll-behavior: smooth; /* Permet un défilement fluide vers le paiement */
         }
         body {
             font-family: 'Lilita One', cursive;
@@ -24,6 +21,9 @@
             background-image: radial-gradient(circle, #1a65e0 10%, transparent 11%), radial-gradient(circle, #1a65e0 10%, transparent 11%);
             background-size: 30px 30px;
             background-position: 0 0, 15px 15px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
         header {
             background-color: var(--bs-yellow);
@@ -35,192 +35,76 @@
             font-size: 3rem;
             text-shadow: 2px 2px 0px white;
             letter-spacing: 2px;
-            position: relative;
-        }
-        .back-btn {
-            position: absolute;
-            left: 20px;
-            top: 25px;
-            background-color: var(--bs-dark);
-            color: white;
-            padding: 10px 15px;
-            font-size: 1.2rem;
-            text-decoration: none;
-            border-radius: 10px;
-            border: 3px solid white;
         }
         .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            justify-content: center;
-            margin-top: 30px;
-        }
-        .card {
-            background-color: white;
-            color: var(--bs-dark);
-            border: 5px solid var(--bs-dark);
-            border-radius: 20px;
-            width: 250px;
-            padding: 20px;
+            max-width: 800px;
+            margin: auto;
+            padding: 40px 20px;
             text-align: center;
-            box-shadow: 6px 6px 0px var(--bs-dark);
-            transition: transform 0.2s, box-shadow 0.2s;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
         }
-        .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 10px 10px 0px var(--bs-dark);
+        h1 {
+            font-size: 3.5rem;
+            margin: 0;
+            text-shadow: 3px 3px 0px var(--bs-dark);
         }
-        .card-img {
-            margin-bottom: 10px;
-        }
-        .card-title {
+        p.subtitle {
             font-size: 1.8rem;
-            color: var(--bs-blue);
-            margin: 10px 0;
-            text-transform: uppercase;
+            margin-top: 10px;
+            text-shadow: 2px 2px 0px var(--bs-dark);
         }
-        .card-price {
-            font-size: 2.2rem;
-            color: var(--bs-red);
-            margin-bottom: 15px;
-            text-shadow: 1px 1px 0px var(--bs-dark);
-        }
-        .btn {
+        .btn-giant {
             background-color: var(--bs-yellow);
             color: var(--bs-dark);
             text-decoration: none;
-            padding: 10px 20px;
-            font-size: 1.2rem;
-            border: 3px solid var(--bs-dark);
-            border-radius: 10px;
-            box-shadow: 3px 3px 0px var(--bs-dark);
+            padding: 20px 40px;
+            font-size: 2rem;
+            border: 5px solid var(--bs-dark);
+            border-radius: 15px;
+            box-shadow: 6px 6px 0px var(--bs-dark);
             cursor: pointer;
-            transition: 0.1s;
+            transition: 0.2s;
             display: inline-block;
             text-transform: uppercase;
+            width: 80%;
+            max-width: 400px;
         }
-        .btn:active {
-            transform: translate(3px, 3px);
-            box-shadow: 0px 0px 0px var(--bs-dark);
-        }
-        .payment-section {
-            background-color: var(--bs-yellow);
-            color: var(--bs-dark);
-            border: 6px solid var(--bs-dark);
-            border-radius: 20px;
-            padding: 30px;
-            margin-top: 50px;
-            text-align: center;
+        .btn-giant:hover {
+            transform: translateY(-5px);
             box-shadow: 8px 8px 0px var(--bs-dark);
         }
-        .payment-section h2 {
-            font-size: 2.5rem;
-            margin-top: 0;
-            color: var(--bs-red);
-            text-shadow: 1px 1px 0px white;
+        .btn-giant:active {
+            transform: translate(4px, 4px);
+            box-shadow: 0px 0px 0px var(--bs-dark);
         }
-        .payment-step {
-            font-size: 1.3rem;
-            margin: 10px 0;
-            font-family: sans-serif;
-            font-weight: bold;
-        }
-        .discord-btn {
+        .btn-discord {
             background-color: #5865F2;
             color: white;
-            font-size: 1.5rem;
-            margin-top: 15px;
-        }
-        footer {
-            text-align: center;
-            padding: 20px;
-            margin-top: 40px;
-            font-size: 1.2rem;
-            text-shadow: 1px 1px 0px var(--bs-dark);
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
 
 <header>
-    <a href="index.html" class="back-btn">⬅ Retour</a>
-    ⭐ OFFRES BRAWL STARS ⭐
+    ⭐ BS Store TN ⭐
 </header>
 
 <div class="container">
-    <div class="grid">
-        <div class="card">
-            <div class="card-img">
-                <img src="image5.jpg" alt="100 Gemmes" style="width: 160px; height: auto; object-fit: contain;">
-            </div>
-            <div class="card-title">100 Gemmes</div>
-            <div class="card-price">10 DT</div>
-            <!-- Le lien mène à l'ancre #paiement tout en bas -->
-            <a href="#paiement" class="btn">Acheter</a>
-        </div>
-        
-        <div class="card">
-            <div class="card-img">
-                <img src="image5.jpg" alt="960 Gemmes" style="width: 160px; height: auto; object-fit: contain;">
-            </div>
-            <div class="card-title">960 Gemmes</div>
-            <div class="card-price">50 DT</div>
-            <a href="#paiement" class="btn">Acheter</a>
-        </div>
-
-        <div class="card">
-            <div class="card-img">
-                <img src="image5.jpg" alt="2000 Gemmes" style="width: 160px; height: auto; object-fit: contain;">
-            </div>
-            <div class="card-title">2000 Gemmes</div>
-            <div class="card-price">100 DT</div>
-            <a href="#paiement" class="btn">Acheter</a>
-        </div>
-
-        <div class="card">
-            <div class="card-img">
-                <img src="image2.jpg" alt="Pass Normal" style="width: 160px; height: auto; object-fit: contain;">
-            </div>
-            <div class="card-title">Pass Normal</div>
-            <div class="card-price">15 DT</div>
-            <a href="#paiement" class="btn">Acheter</a>
-        </div>
-
-        <div class="card">
-            <div class="card-img">
-                <img src="image3.jpg" alt="Pass Plus" style="width: 160px; height: auto; object-fit: contain;">
-            </div>
-            <div class="card-title">Pass Plus</div>
-            <div class="card-price">25 DT</div>
-            <a href="#paiement" class="btn">Acheter</a>
-        </div>
+    <div>
+        <h1>BIENVENUE SUR BS STORE</h1>
+        <p class="subtitle">La meilleure boutique Brawl Stars de Tunisie 🇹🇳</p>
     </div>
 
-    <!-- Section Paiement -->
-    <div id="paiement" class="payment-section">
-        <h2>💳 Paiement rapide avec Flouci</h2>
-        <p class="payment-step">1️⃣ Cliquez sur le bouton ci-dessous pour payer directement via Flouci.</p>
-        
-        <!-- N'oublie pas de remettre ton vrai lien Flouci ici ! -->
-        <a href="TON_LIEN_FLOUCI" target="_blank" class="btn" style="background-color: white; color: var(--bs-blue); font-size: 1.8rem; padding: 15px 30px; margin: 20px 0;">
-            Payer avec Flouci 💸
-        </a>
-        
-        <p class="payment-step">2️⃣ Prenez une capture d'écran de la confirmation de paiement.</p>
-        <p class="payment-step">3️⃣ Rejoignez notre Discord et ouvrez un ticket avec votre capture !</p>
-        <br>
-        <a href="https://discord.gg/fHKmk36A" target="_blank" class="btn discord-btn">Rejoindre le serveur Discord</a>
-    </div>
+    <!-- Ce lien mène au fichier offres.html -->
+    <a href="offres.html" class="btn-giant">🛒 Voir les offres</a>
 
-    <footer>
-        © 2026 BS Store TN - Ce site n'est pas affilié à Supercell.
-    </footer>
+    <a href="https://discord.gg/fHKmk36A" target="_blank" class="btn-giant btn-discord">💬 Rejoindre le Discord</a>
 </div>
 
 </body>
