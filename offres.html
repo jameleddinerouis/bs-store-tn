@@ -12,9 +12,6 @@
             --bs-red: #E63946;
             --bs-dark: #1D1D1D;
         }
-        html {
-            scroll-behavior: smooth;
-        }
         body {
             font-family: 'Lilita One', cursive;
             background-color: var(--bs-blue);
@@ -35,39 +32,40 @@
             font-size: 3rem;
             text-shadow: 2px 2px 0px white;
             letter-spacing: 2px;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
         
-        /* NOUVEAU STYLE DU BOUTON RETOUR (COMME SUR TON IMAGE) */
-        .back-btn {
-            position: absolute;
-            left: 20px;
-            background-color: var(--bs-dark);
-            color: white;
-            padding: 8px 25px;
-            font-size: 1.5rem;
-            text-decoration: none;
-            border-radius: 12px;
-            border: 4px solid white;
-            text-transform: uppercase;
+        /* Bar du bouton retour */
+        .top-bar {
+            max-width: 1000px;
+            margin: 20px auto 0 auto;
+            padding: 0 20px;
             display: flex;
+            justify-content: flex-start;
+        }
+        .back-btn {
+            background-color: #1a1a1a;
+            color: white;
+            padding: 10px 30px;
+            font-size: 1.8rem;
+            text-decoration: none;
+            border-radius: 15px;
+            border: 5px solid white;
+            text-transform: uppercase;
+            display: inline-flex;
             align-items: center;
-            gap: 10px;
-            transition: transform 0.1s;
+            gap: 15px;
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.3);
+            cursor: pointer;
         }
-        .back-btn:hover {
-            transform: scale(1.05);
-        }
-
+        
         .container {
             max-width: 1000px;
             margin: 0 auto;
             padding: 20px;
         }
-        .grid {
+
+        /* --- VUE 1 : LA GRILLE DES OFFRES --- */
+        #liste-offres {
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
@@ -83,14 +81,10 @@
             padding: 20px;
             text-align: center;
             box-shadow: 6px 6px 0px var(--bs-dark);
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: transform 0.2s;
         }
         .card:hover {
             transform: translateY(-10px);
-            box-shadow: 10px 10px 0px var(--bs-dark);
-        }
-        .card-img {
-            margin-bottom: 10px;
         }
         .card-title {
             font-size: 1.8rem;
@@ -102,66 +96,74 @@
             font-size: 2.2rem;
             color: var(--bs-red);
             margin-bottom: 15px;
-            text-shadow: 1px 1px 0px var(--bs-dark);
         }
         .btn {
             background-color: var(--bs-yellow);
             color: var(--bs-dark);
-            text-decoration: none;
             padding: 10px 20px;
             font-size: 1.2rem;
             border: 3px solid var(--bs-dark);
             border-radius: 10px;
             box-shadow: 3px 3px 0px var(--bs-dark);
             cursor: pointer;
-            transition: 0.1s;
-            display: inline-block;
             text-transform: uppercase;
-            border: none; /* Reset pour les boutons */
-            border: 3px solid var(--bs-dark);
+            font-family: 'Lilita One', cursive;
+            display: inline-block;
+            text-decoration: none;
         }
-        .btn:active {
-            transform: translate(3px, 3px);
-            box-shadow: 0px 0px 0px var(--bs-dark);
-        }
-        
-        /* CACHER LA SECTION PAIEMENT PAR DÉFAUT */
-        .payment-section {
-            display: none; /* Caché au début */
+
+        /* --- VUE 2 : LA PAGE DE PAIEMENT DÉDIÉE --- */
+        #page-paiement {
+            display: none; /* Cachée au début */
             background-color: white;
             color: var(--bs-dark);
             border: 6px solid var(--bs-dark);
             border-radius: 20px;
             padding: 40px;
-            margin-top: 50px;
+            max-width: 700px;
+            margin: 30px auto;
             text-align: center;
             box-shadow: 8px 8px 0px var(--bs-dark);
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .payment-section.active {
-            display: block; /* S'affiche quand on ajoute la classe via Javascript */
-            animation: popIn 0.3s ease-out forwards;
         }
         
-        @keyframes popIn {
-            0% { transform: scale(0.8); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
+        .produit-focus {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            background-color: #f0f0f0;
+            padding: 20px;
+            border-radius: 15px;
+            border: 3px dashed var(--bs-blue);
+            margin-bottom: 30px;
+        }
+        .produit-focus img {
+            width: 120px;
+            object-fit: contain;
+        }
+        .produit-details h2 {
+            margin: 0;
+            font-size: 2.5rem;
+            color: var(--bs-blue);
+        }
+        .produit-details p {
+            margin: 0;
+            font-size: 2rem;
+            color: var(--bs-red);
         }
 
-        .payment-section h2 {
-            font-size: 2.5rem;
-            margin-top: 0;
-            color: var(--bs-red);
-            text-shadow: 1px 1px 0px var(--bs-dark);
-            text-transform: uppercase;
-        }
         .payment-step {
             font-size: 1.3rem;
             margin: 15px 0;
             font-family: sans-serif;
             font-weight: bold;
+        }
+        .btn-flouci {
+            background-color: var(--bs-yellow);
+            color: var(--bs-dark);
+            font-size: 1.8rem;
+            padding: 15px 30px;
+            margin: 20px 0;
         }
         .discord-btn {
             background-color: #5865F2;
@@ -169,101 +171,125 @@
             font-size: 1.5rem;
             margin-top: 15px;
         }
-        footer {
-            text-align: center;
-            padding: 20px;
-            margin-top: 40px;
-            font-size: 1.2rem;
-            text-shadow: 1px 1px 0px var(--bs-dark);
-        }
     </style>
 </head>
 <body>
 
 <header>
-    <!-- Nouveau bouton de retour style cartoon -->
-    <a href="index.html" class="back-btn">⬅ RETOUR</a>
-    <span style="margin-left: auto; margin-right: auto;">⭐ OFFRES BRAWL STARS ⭐</span>
+    ⭐ OFFRES BRAWL STARS ⭐
 </header>
 
+<div class="top-bar">
+    <!-- Ce bouton utilise JS pour revenir aux offres, ou retourne à l'accueil si on est déjà sur les offres -->
+    <a id="btn-retour" onclick="gererRetour()" class="back-btn">⬅ RETOUR</a>
+</div>
+
 <div class="container">
-    <div class="grid">
+    
+    <!-- VUE 1 : GRILLE DES PRODUITS -->
+    <div id="liste-offres">
+        <!-- 100 Gemmes -->
         <div class="card">
-            <div class="card-img">
-                <img src="image5.jpg" alt="100 Gemmes" style="width: 160px; height: auto; object-fit: contain;">
-            </div>
+            <div class="card-img"><img src="image5.jpg" style="width: 160px;"></div>
             <div class="card-title">100 Gemmes</div>
             <div class="card-price">10 DT</div>
-            <!-- On utilise onclick pour déclencher l'affichage du paiement -->
-            <button onclick="showPayment()" class="btn">Acheter</button>
+            <!-- On envoie le nom, le prix et l'image à la fonction Javascript -->
+            <button onclick="ouvrirPaiement('100 Gemmes', '10 DT', 'image5.jpg')" class="btn">Acheter</button>
         </div>
         
+        <!-- 960 Gemmes -->
         <div class="card">
-            <div class="card-img">
-                <img src="image5.jpg" alt="960 Gemmes" style="width: 160px; height: auto; object-fit: contain;">
-            </div>
+            <div class="card-img"><img src="image5.jpg" style="width: 160px;"></div>
             <div class="card-title">960 Gemmes</div>
             <div class="card-price">50 DT</div>
-            <button onclick="showPayment()" class="btn">Acheter</button>
+            <button onclick="ouvrirPaiement('960 Gemmes', '50 DT', 'image5.jpg')" class="btn">Acheter</button>
         </div>
 
+        <!-- 2000 Gemmes -->
         <div class="card">
-            <div class="card-img">
-                <img src="image5.jpg" alt="2000 Gemmes" style="width: 160px; height: auto; object-fit: contain;">
-            </div>
+            <div class="card-img"><img src="image5.jpg" style="width: 160px;"></div>
             <div class="card-title">2000 Gemmes</div>
             <div class="card-price">100 DT</div>
-            <button onclick="showPayment()" class="btn">Acheter</button>
+            <button onclick="ouvrirPaiement('2000 Gemmes', '100 DT', 'image5.jpg')" class="btn">Acheter</button>
         </div>
 
+        <!-- Pass Normal -->
         <div class="card">
-            <div class="card-img">
-                <img src="image2.jpg" alt="Pass Normal" style="width: 160px; height: auto; object-fit: contain;">
-            </div>
+            <div class="card-img"><img src="image2.jpg" style="width: 160px;"></div>
             <div class="card-title">Pass Normal</div>
             <div class="card-price">15 DT</div>
-            <button onclick="showPayment()" class="btn">Acheter</button>
+            <button onclick="ouvrirPaiement('Pass Normal', '15 DT', 'image2.jpg')" class="btn">Acheter</button>
         </div>
 
+        <!-- Pass Plus -->
         <div class="card">
-            <div class="card-img">
-                <img src="image3.jpg" alt="Pass Plus" style="width: 160px; height: auto; object-fit: contain;">
-            </div>
+            <div class="card-img"><img src="image3.jpg" style="width: 160px;"></div>
             <div class="card-title">Pass Plus</div>
             <div class="card-price">25 DT</div>
-            <button onclick="showPayment()" class="btn">Acheter</button>
+            <button onclick="ouvrirPaiement('Pass Plus', '25 DT', 'image3.jpg')" class="btn">Acheter</button>
         </div>
     </div>
 
-    <!-- Section Paiement qui apparaîtra comme une "nouvelle page" -->
-    <div id="paiement" class="payment-section">
-        <h2>💳 Procédure de Paiement</h2>
-        <p class="payment-step">1️⃣ Cliquez sur le bouton jaune pour payer via Flouci.</p>
+    <!-- VUE 2 : PAGE DÉDIÉE DE PAIEMENT -->
+    <div id="page-paiement">
+        
+        <!-- Résumé du produit choisi généré automatiquement -->
+        <div class="produit-focus">
+            <img id="checkout-img" src="" alt="Produit">
+            <div class="produit-details">
+                <h2>Achat de : <span id="checkout-nom"></span></h2>
+                <p>Prix total : <strong id="checkout-prix"></strong></p>
+            </div>
+        </div>
+
+        <h3>💳 Procédure de Paiement Flouci</h3>
+        <p class="payment-step">1️⃣ Cliquez sur le bouton jaune ci-dessous.</p>
         
         <!-- TON LIEN FLOUCI ICI -->
-        <a href="TON_LIEN_FLOUCI" target="_blank" class="btn" style="background-color: var(--bs-yellow); color: var(--bs-dark); font-size: 1.8rem; padding: 15px 30px; margin: 20px 0;">
+        <a href="TON_LIEN_FLOUCI" target="_blank" class="btn btn-flouci">
             Payer avec Flouci 💸
         </a>
         
-        <p class="payment-step">2️⃣ Prenez une capture d'écran du paiement.</p>
-        <p class="payment-step">3️⃣ Rejoignez notre Discord et ouvrez un ticket pour recevoir vos gemmes !</p>
+        <p class="payment-step">2️⃣ Prenez une capture d'écran du paiement réussi.</p>
+        <p class="payment-step">3️⃣ Rejoignez notre Discord et ouvrez un ticket pour recevoir votre commande !</p>
         <br>
         <a href="https://discord.gg/fHKmk36A" target="_blank" class="btn discord-btn">Ouvrir un ticket Discord</a>
     </div>
 
-    <footer>
-        © 2026 BS Store TN - Ce site n'est pas affilié à Supercell.
-    </footer>
 </div>
 
-<!-- Petit script pour gérer l'affichage de la zone de paiement -->
+<!-- SCRIPT MAGIQUE POUR GÉRER LES PAGES -->
 <script>
-    function showPayment() {
-        var paymentSection = document.getElementById("paiement");
-        // Affiche la section avec une petite animation
-        paymentSection.classList.add("active");
-        // Fait défiler la page automatiquement et doucement vers le panneau de paiement
-        paymentSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    let vueActuelle = "offres";
+
+    // Fonction quand on clique sur "Acheter"
+    function ouvrirPaiement(nom, prix, image) {
+        // 1. Remplir la page de paiement avec les bonnes infos
+        document.getElementById('checkout-nom').innerText = nom;
+        document.getElementById('checkout-prix').innerText = prix;
+        document.getElementById('checkout-img').src = image;
+
+        // 2. Cacher la liste des offres
+        document.getElementById('liste-offres').style.display = "none";
+        
+        // 3. Afficher la page de paiement
+        document.getElementById('page-paiement').style.display = "block";
+        
+        vueActuelle = "paiement";
+        window.scrollTo(0, 0); // Remonte tout en haut de la page
+    }
+
+    // Fonction quand on clique sur "Retour"
+    function gererRetour() {
+        if (vueActuelle === "paiement") {
+            // Si on est sur le paiement, on retourne aux offres
+            document.getElementById('page-paiement').style.display = "none";
+            document.getElementById('liste-offres').style.display = "flex";
+            vueActuelle = "offres";
+        } else {
+            // Si on est sur les offres, on retourne à l'accueil (index.html)
+            window.location.href = "index.html";
+        }
     }
 </script>
 
