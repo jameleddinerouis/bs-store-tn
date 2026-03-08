@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BS Store - Panel Admin</title>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #0d0d0d;
+            color: #00ff00;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* --- ÉCRAN DE CONNEXION --- */
+        #login-screen {
+            text-align: center;
+            background-color: #1a1a1a;
+            padding: 40px;
+            border: 2px solid #00ff00;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
+        }
+        #login-screen h2 {
+            margin-top: 0;
+            text-transform: uppercase;
+        }
+        input[type="password"] {
+            background-color: black;
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            padding: 10px;
+            font-size: 1.5rem;
+            text-align: center;
+            width: 200px;
+            margin-bottom: 20px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        button {
+            background-color: #00ff00;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        button:hover { background-color: #00cc00; }
+
+        /* --- TABLEAU DE BORD (CACHÉ AU DÉBUT) --- */
+        #dashboard {
+            display: none;
+            width: 90%;
+            max-width: 1000px;
+        }
+        .header-admin {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #00ff00;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        .header-admin h1 { margin: 0; }
+        .logout-btn { background-color: red; color: white; }
+        .logout-btn:hover { background-color: darkred; }
+
+        .grid-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .stat-card {
+            background-color: #1a1a1a;
+            border: 1px solid #00ff00;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.1);
+        }
+        .stat-title {
+            font-size: 1.2rem;
+            color: #888;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+        .stat-value {
+            font-size: 3rem;
+            font-weight: bold;
+            text-shadow: 0 0 5px #00ff00;
+        }
+        .stat-sub { font-size: 0.9rem; color: #aaa; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+    <!-- Écran de connexion -->
+    <div id="login-screen">
+        <h2>🔒 ACCÈS RESTREINT</h2>
+        <input type="password" id="pin-input" placeholder="Code secret" maxlength="6">
+        <br>
+        <button onclick="verifierCode()">Connexion</button>
+        <p id="error-msg" style="color: red; display: none;">Accès refusé.</p>
+    </div>
+
+    <!-- Tableau de bord -->
+    <div id="dashboard">
+        <div class="header-admin">
+            <h1>💻 BS Store - Panel Admin</h1>
+            <button class="logout-btn" onclick="location.reload()">Déconnexion</button>
+        </div>
+
+        <div class="grid-stats">
+            <!-- Widget Argent -->
+            <div class="stat-card">
+                <div class="stat-title">Revenus (15 derniers jours)</div>
+                <div class="stat-value" id="revenue-val">-- DT</div>
+                <div class="stat-sub">Objectif cycle: 600 DT</div>
+            </div>
+
+            <!-- Widget Visites (Aléatoire) -->
+            <div class="stat-card">
+                <div class="stat-title">Visiteurs Aujourd'hui</div>
+                <div class="stat-value" id="visitors-val">--</div>
+                <div class="stat-sub">En direct de Tunisie</div>
+            </div>
+
+            <!-- Widget Commandes -->
+            <div class="stat-card">
+                <div class="stat-title">Commandes en attente</div>
+                <div class="stat-value" id="orders-val" style="color: orange; text-shadow: 0 0 5px orange;">--</div>
+                <div class="stat-sub">Vérifiez Discord !</div>
+            </div>
+
+            <!-- Widget Serveur -->
+            <div class="stat-card">
+                <div class="stat-title">Statut API Flouci</div>
+                <div class="stat-value" style="color: #00ff00;">ONLINE</div>
+                <div class="stat-sub">Connexion sécurisée</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* =========================================
+           PROTECTION ANTI-INSPECTEUR D'ÉLÉMENTS
+           ========================================= */
+        // Bloque le clic droit
+        document.addEventListener('contextmenu', event => event.preventDefault());
+        // Bloque F12, Ctrl+Maj+I, Ctrl+Maj+C, Ctrl+U
+        document.onkeydown = function(e) {
+            if(e.keyCode == 123) return false; // F12
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false;
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false;
+            if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
+        };
+
+        /* =========================================
+           SYSTÈME DE CONNEXION (CODE CACHÉ)
+           ========================================= */
+        function verifierCode() {
+            let input = document.getElementById('pin-input').value;
+            // "MjcwNTEx" est la version cryptée (Base64) de 270511
+            if (btoa(input) === "MjcwNTEx") {
+                document.getElementById('login-screen').style.display = "none";
+                document.getElementById('dashboard').style.display = "block";
+                chargerStatistiques();
+            } else {
+                document.getElementById('error-msg').style.display = "block";
+                document.getElementById('pin-input').value = "";
+            }
+        }
+
+        // Permet d'appuyer sur Entrée pour valider
+        document.getElementById("pin-input").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") { event.preventDefault(); verifierCode(); }
+        });
+
+        /* =========================================
+           GÉNÉRATEUR D'ARGENT SIMULÉ (15 JOURS)
+           ========================================= */
+        function chargerStatistiques() {
+            let today = new Date();
+            today.setHours(0,0,0,0); // On remet l'heure à minuit pour calculer juste les jours
+            let timeToday = today.getTime();
+
+            // On récupère les données dans le stockage du navigateur
+            let dateDebut = localStorage.getItem('bs_start_date');
+            let revenuActuel = localStorage.getItem('bs_revenue');
+            let derniereMiseAJour = localStorage.getItem('bs_last_update');
+
+            // Si c'est la toute première fois qu'on ouvre l'admin
+            if (!dateDebut) {
+                dateDebut = timeToday;
+                revenuActuel = 15; // Départ à 15 DT
+                derniereMiseAJour = timeToday;
+                
+                localStorage.setItem('bs_start_date', dateDebut);
+                localStorage.setItem('bs_revenue', revenuActuel);
+                localStorage.setItem('bs_last_update', derniereMiseAJour);
+            } else {
+                dateDebut = parseInt(dateDebut);
+                revenuActuel = parseInt(revenuActuel);
+                derniereMiseAJour = parseInt(derniereMiseAJour);
+
+                // Calcul du nombre de jours passés
+                let joursDepuisDebut = Math.floor((timeToday - dateDebut) / (1000 * 3600 * 24));
+                let joursDepuisDerniereMaj = Math.floor((timeToday - derniereMiseAJour) / (1000 * 3600 * 24));
+
+                // Si on dépasse 15 jours, on réinitialise à 15 DT !
+                if (joursDepuisDebut >= 15) {
+                    dateDebut = timeToday;
+                    revenuActuel = 15;
+                    derniereMiseAJour = timeToday;
+                    localStorage.setItem('bs_start_date', dateDebut);
+                } 
+                // Sinon, s'il s'est passé de nouveaux jours depuis la dernière ouverture
+                else if (joursDepuisDerniereMaj > 0) {
+                    // On ajoute entre 10 et 75 DT par jour manqué
+                    for(let i=0; i<joursDepuisDerniereMaj; i++) {
+                        revenuActuel += Math.floor(Math.random() * (75 - 10 + 1)) + 10;
+                    }
+                    derniereMiseAJour = timeToday;
+                    localStorage.setItem('bs_last_update', derniereMiseAJour);
+                }
+                
+                // On sauvegarde le nouveau montant
+                localStorage.setItem('bs_revenue', revenuActuel);
+            }
+
+            // Affichage de l'argent calculé
+            document.getElementById('revenue-val').innerText = revenuActuel + " DT";
+
+            // Génération de fausses statistiques réalistes pour les autres widgets
+            document.getElementById('visitors-val').innerText = Math.floor(Math.random() * 80) + 40; // Entre 40 et 120 visiteurs
+            document.getElementById('orders-val').innerText = Math.floor(Math.random() * 4); // Entre 0 et 3 commandes en attente
+        }
+    </script>
+</body>
+</html>
