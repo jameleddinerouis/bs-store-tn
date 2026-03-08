@@ -144,4 +144,26 @@
 
 <script>
     // Étoiles et Statut
-    function createStars()
+    function createStars() { const container = document.getElementById('stars-container'); for(let i=0; i<20; i++) { let star = document.createElement('div'); star.className = 'star'; star.innerHTML = '⭐'; star.style.left = Math.random()*100+'%'; star.style.animationDuration = (Math.random()*5+5)+'s'; star.style.animationDelay = (Math.random()*5)+'s'; container.appendChild(star); } } createStars();
+    function checkStatus() { let hour = new Date().getHours(); let dot = document.getElementById('status-dot'); let text = document.getElementById('status-text'); if(hour >= 23 || hour < 8) { dot.style.backgroundColor = "#FF0000"; text.innerText = "Hors ligne"; } } checkStatus();
+
+    // Roue de la chance
+    function ouvrirRoue() { document.getElementById('roue-popup').style.display = 'flex'; }
+    function fermerRoue() { document.getElementById('roue-popup').style.display = 'none'; }
+    function tournerRoue() {
+        let btn = document.getElementById('btn-tourner');
+        let icon = document.getElementById('roue-icon');
+        btn.style.display = 'none';
+        document.getElementById('roue-titre').innerText = "Analyse...";
+        
+        // Fait tourner l'icône 10 fois (3600 degrés)
+        icon.style.transform = "rotate(3600deg)";
+        
+        setTimeout(() => {
+            document.getElementById('roue-titre').innerText = "🎉 C'EST GAGNÉ !";
+            document.getElementById('roue-resultat').style.display = 'block';
+        }, 2000);
+    }
+</script>
+</body>
+</html>
