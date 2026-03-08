@@ -25,6 +25,7 @@
             border: 2px solid #00ff00;
             border-radius: 10px;
             box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
+            position: relative;
         }
         #login-screen h2 {
             margin-top: 0;
@@ -51,8 +52,15 @@
             cursor: pointer;
             text-transform: uppercase;
             font-family: 'Courier New', Courier, monospace;
+            border-radius: 5px;
         }
         button:hover { background-color: #00cc00; }
+        
+        .btn-blue {
+            background-color: #0A56D9;
+            color: white;
+        }
+        .btn-blue:hover { background-color: #0840a3; }
 
         /* --- TABLEAU DE BORD --- */
         #dashboard {
@@ -106,15 +114,21 @@
         <h2>🔒 ACCÈS RESTREINT</h2>
         <input type="password" id="pin-input" placeholder="Code secret" maxlength="6">
         <br>
-        <button onclick="verifierCode()">Connexion</button>
-        <p id="error-msg" style="color: red; display: none;">Accès refusé.</p>
+        <div style="display: flex; gap: 10px; justify-content: center;">
+            <button onclick="window.location.href='index.html'" class="btn-blue">⬅ Site</button>
+            <button onclick="verifierCode()">Connexion</button>
+        </div>
+        <p id="error-msg" style="color: red; display: none; margin-top: 15px;">Accès refusé.</p>
     </div>
 
     <!-- Tableau de bord -->
     <div id="dashboard">
         <div class="header-admin">
             <h1>💻 BS Store - Panel Admin</h1>
-            <button class="logout-btn" onclick="location.reload()">Déconnexion</button>
+            <div style="display: flex; gap: 10px;">
+                <button onclick="window.location.href='index.html'" class="btn-blue">Retour au site</button>
+                <button class="logout-btn" onclick="location.reload()">Déconnexion</button>
+            </div>
         </div>
 
         <div class="grid-stats">
@@ -190,7 +204,7 @@
             let timeTodayMidnight = todayMidnight.getTime();
 
             // ----------------------------------------------------
-            // 1. CALCUL DE L'ARGENT (Même logique qu'avant)
+            // 1. CALCUL DE L'ARGENT (15 jours)
             // ----------------------------------------------------
             let dateDebut = localStorage.getItem('bs_start_date');
             let revenuActuel = localStorage.getItem('bs_revenue');
@@ -228,53 +242,43 @@
             document.getElementById('revenue-val').innerText = revenuActuel + " DT";
 
             // ----------------------------------------------------
-            // 2. CALCUL DES VISITEURS (Heure par Heure)
+            // 2. CALCUL DES VISITEURS (Heure par Heure depuis 8h)
             // ----------------------------------------------------
             let currentHour = now.getHours();
-            
-            // On enregistre le jour actuel pour réinitialiser les visiteurs à 8h le lendemain
             let recordedDay = localStorage.getItem('bs_visit_day');
             let currentDay = now.getDate();
             
             let visiteursActuels = localStorage.getItem('bs_visitors');
             let derniereHeureCalculee = localStorage.getItem('bs_last_hour_calc');
 
-            // Si on est un nouveau jour, on réinitialise tout (ou si c'est la 1ere fois)
             if (recordedDay != currentDay) {
                 visiteursActuels = 0;
-                derniereHeureCalculee = 7; // On part du principe qu'avant 8h, c'est l'heure "7"
+                derniereHeureCalculee = 7;
                 localStorage.setItem('bs_visit_day', currentDay);
             } else {
                 visiteursActuels = parseInt(visiteursActuels) || 0;
                 derniereHeureCalculee = parseInt(derniereHeureCalculee) || 7;
             }
 
-            // Si on est entre 8h et 23h (ou plus tard)
             if (currentHour >= 8) {
-                // Combien d'heures sont passées depuis le dernier calcul ?
                 let heuresPassees = currentHour - derniereHeureCalculee;
                 
                 if (heuresPassees > 0) {
-                    // Pour chaque heure passée, on ajoute entre 2 et 13 visiteurs
                     for(let i = 0; i < heuresPassees; i++) {
                         visiteursActuels += Math.floor(Math.random() * (13 - 2 + 1)) + 2;
                     }
-                    // On met à jour l'heure de la dernière vérification
                     derniereHeureCalculee = currentHour;
-                    
-                    // On sauvegarde dans le navigateur pour résister au rafraîchissement (F5)
                     localStorage.setItem('bs_visitors', visiteursActuels);
                     localStorage.setItem('bs_last_hour_calc', derniereHeureCalculee);
                 }
             } else {
-                // S'il n'est pas encore 8h du matin, le compteur reste à 0
                 visiteursActuels = 0;
             }
 
             document.getElementById('visitors-val').innerText = visiteursActuels;
 
             // ----------------------------------------------------
-            // 3. WIDGET COMMANDES (Reste aléatoire à chaque ouverture)
+            // 3. WIDGET COMMANDES (Aléatoire)
             // ----------------------------------------------------
             document.getElementById('orders-val').innerText = Math.floor(Math.random() * 4);
         }
