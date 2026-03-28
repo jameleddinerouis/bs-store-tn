@@ -3,285 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BS Store - Panel Admin</title>
+    <title>BS Store | Sécurité & Admin</title>
     <style>
+        :root {
+            --term-bg: #050505;
+            --term-green: #00ff41;
+            --term-red: #ff003c;
+            --term-border: #1a1a1a;
+        }
+
         body {
             font-family: 'Courier New', Courier, monospace;
-            background-color: #0d0d0d;
-            color: #00ff00;
+            background-color: var(--term-bg);
+            color: var(--term-green);
             margin: 0;
-            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            background-image: linear-gradient(rgba(0, 255, 65, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 255, 65, 0.03) 1px, transparent 1px);
+            background-size: 20px 20px;
         }
 
-        /* --- ÉCRAN DE CONNEXION --- */
-        #login-screen {
-            text-align: center;
-            background-color: #1a1a1a;
+        .login-box {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--term-green);
             padding: 40px;
-            border: 2px solid #00ff00;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.1);
             position: relative;
+            overflow: hidden;
         }
-        #login-screen h2 {
+
+        /* Effet scanline rétro */
+        .login-box::before {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 2;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+
+        h2 {
             margin-top: 0;
             text-transform: uppercase;
-        }
-        input[type="password"] {
-            background-color: black;
-            color: #00ff00;
-            border: 1px solid #00ff00;
-            padding: 10px;
             font-size: 1.5rem;
-            text-align: center;
-            width: 200px;
-            margin-bottom: 20px;
-            font-family: 'Courier New', Courier, monospace;
-        }
-        button {
-            background-color: #00ff00;
-            color: black;
-            border: none;
-            padding: 10px 20px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            cursor: pointer;
-            text-transform: uppercase;
-            font-family: 'Courier New', Courier, monospace;
-            border-radius: 5px;
-        }
-        button:hover { background-color: #00cc00; }
-        
-        .btn-blue {
-            background-color: #0A56D9;
-            color: white;
-        }
-        .btn-blue:hover { background-color: #0840a3; }
-
-        /* --- TABLEAU DE BORD --- */
-        #dashboard {
-            display: none;
-            width: 90%;
-            max-width: 1000px;
-        }
-        .header-admin {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid #00ff00;
+            letter-spacing: 2px;
+            border-bottom: 1px dashed var(--term-green);
             padding-bottom: 10px;
             margin-bottom: 30px;
         }
-        .header-admin h1 { margin: 0; }
-        .logout-btn { background-color: red; color: white; }
-        .logout-btn:hover { background-color: darkred; }
 
-        .grid-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+        .input-group {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
         }
-        .stat-card {
-            background-color: #1a1a1a;
-            border: 1px solid #00ff00;
-            padding: 20px;
-            border-radius: 8px;
-            text-align: center;
-            box-shadow: 0 0 10px rgba(0, 255, 0, 0.1);
-        }
-        .stat-title {
-            font-size: 1.2rem;
-            color: #888;
-            margin-bottom: 10px;
+
+        label {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
             text-transform: uppercase;
         }
-        .stat-value {
-            font-size: 3rem;
-            font-weight: bold;
-            text-shadow: 0 0 5px #00ff00;
+
+        input {
+            background-color: #000;
+            border: 1px solid #333;
+            color: var(--term-green);
+            padding: 12px;
+            font-family: inherit;
+            font-size: 1rem;
+            outline: none;
+            transition: border 0.3s;
         }
-        .stat-sub { font-size: 0.9rem; color: #aaa; margin-top: 10px; }
+
+        input:focus { border: 1px solid var(--term-green); }
+
+        .btn-auth {
+            background: transparent;
+            color: var(--term-green);
+            border: 1px solid var(--term-green);
+            padding: 12px;
+            width: 100%;
+            font-family: inherit;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 10px;
+        }
+
+        .btn-auth:hover {
+            background: var(--term-green);
+            color: #000;
+        }
+
+        .status-sys {
+            margin-top: 20px;
+            font-size: 0.8rem;
+            opacity: 0.7;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
 
-    <!-- Écran de connexion -->
-    <div id="login-screen">
-        <h2>🔒 ACCÈS RESTREINT</h2>
-        <input type="password" id="pin-input" placeholder="Code secret" maxlength="6">
-        <br>
-        <div style="display: flex; gap: 10px; justify-content: center;">
-            <button onclick="window.location.href='index.html'" class="btn-blue">⬅ Site</button>
-            <button onclick="verifierCode()">Connexion</button>
+    <div class="login-box">
+        <h2>> AUTH_REQUIRED</h2>
+        
+        <div class="input-group">
+            <label>Utilisateur :</label>
+            <input type="text" placeholder="admin_id" autocomplete="off">
         </div>
-        <p id="error-msg" style="color: red; display: none; margin-top: 15px;">Accès refusé.</p>
-    </div>
-
-    <!-- Tableau de bord -->
-    <div id="dashboard">
-        <div class="header-admin">
-            <h1>💻 BS Store - Panel Admin</h1>
-            <div style="display: flex; gap: 10px;">
-                <button onclick="window.location.href='index.html'" class="btn-blue">Retour au site</button>
-                <button class="logout-btn" onclick="location.reload()">Déconnexion</button>
-            </div>
+        
+        <div class="input-group">
+            <label>Clé de sécurité :</label>
+            <input type="password" placeholder="••••••••">
         </div>
 
-        <div class="grid-stats">
-            <!-- Widget Argent -->
-            <div class="stat-card">
-                <div class="stat-title">Revenus (15 derniers jours)</div>
-                <div class="stat-value" id="revenue-val">-- DT</div>
-                <div class="stat-sub">Objectif cycle: 600 DT</div>
-            </div>
+        <button class="btn-auth">Initialiser Connexion</button>
 
-            <!-- Widget Visites (Persistant) -->
-            <div class="stat-card">
-                <div class="stat-title">Visiteurs Aujourd'hui</div>
-                <div class="stat-value" id="visitors-val" style="color: cyan; text-shadow: 0 0 5px cyan;">--</div>
-                <div class="stat-sub">Depuis 8h00 du matin</div>
-            </div>
-
-            <!-- Widget Commandes -->
-            <div class="stat-card">
-                <div class="stat-title">Commandes en attente</div>
-                <div class="stat-value" id="orders-val" style="color: orange; text-shadow: 0 0 5px orange;">--</div>
-                <div class="stat-sub">Vérifiez Discord !</div>
-            </div>
-
-            <!-- Widget Serveur -->
-            <div class="stat-card">
-                <div class="stat-title">Statut API Flouci</div>
-                <div class="stat-value" style="color: #00ff00;">ONLINE</div>
-                <div class="stat-sub">Connexion sécurisée</div>
-            </div>
+        <div class="status-sys">
+            SYS_STATUS: ONLINE | PORT: 8080<br>
+            MONITORING RESEAU ACTIF
         </div>
     </div>
 
-    <script>
-        /* =========================================
-           PROTECTION ANTI-INSPECTEUR
-           ========================================= */
-        document.addEventListener('contextmenu', event => event.preventDefault());
-        document.onkeydown = function(e) {
-            if(e.keyCode == 123) return false; 
-            if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
-            if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false;
-            if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false;
-            if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
-        };
-
-        /* =========================================
-           CONNEXION SECRÈTE (270511 = MjcwNTEx)
-           ========================================= */
-        function verifierCode() {
-            let input = document.getElementById('pin-input').value;
-            if (btoa(input) === "MjcwNTEx") {
-                document.getElementById('login-screen').style.display = "none";
-                document.getElementById('dashboard').style.display = "block";
-                chargerStatistiques();
-            } else {
-                document.getElementById('error-msg').style.display = "block";
-                document.getElementById('pin-input').value = "";
-            }
-        }
-
-        document.getElementById("pin-input").addEventListener("keypress", function(event) {
-            if (event.key === "Enter") { event.preventDefault(); verifierCode(); }
-        });
-
-        /* =========================================
-           GÉNÉRATION INTELLIGENTE ET PERSISTANTE
-           ========================================= */
-        function chargerStatistiques() {
-            let now = new Date();
-            let todayMidnight = new Date();
-            todayMidnight.setHours(0,0,0,0);
-            let timeTodayMidnight = todayMidnight.getTime();
-
-            // ----------------------------------------------------
-            // 1. CALCUL DE L'ARGENT (15 jours)
-            // ----------------------------------------------------
-            let dateDebut = localStorage.getItem('bs_start_date');
-            let revenuActuel = localStorage.getItem('bs_revenue');
-            let derniereMajArgent = localStorage.getItem('bs_last_update');
-
-            if (!dateDebut) {
-                dateDebut = timeTodayMidnight;
-                revenuActuel = 15;
-                derniereMajArgent = timeTodayMidnight;
-                localStorage.setItem('bs_start_date', dateDebut);
-                localStorage.setItem('bs_revenue', revenuActuel);
-                localStorage.setItem('bs_last_update', derniereMajArgent);
-            } else {
-                dateDebut = parseInt(dateDebut);
-                revenuActuel = parseInt(revenuActuel);
-                derniereMajArgent = parseInt(derniereMajArgent);
-
-                let joursDepuisDebut = Math.floor((timeTodayMidnight - dateDebut) / (1000 * 3600 * 24));
-                let joursDepuisDerniereMaj = Math.floor((timeTodayMidnight - derniereMajArgent) / (1000 * 3600 * 24));
-
-                if (joursDepuisDebut >= 15) {
-                    dateDebut = timeTodayMidnight;
-                    revenuActuel = 15;
-                    derniereMajArgent = timeTodayMidnight;
-                    localStorage.setItem('bs_start_date', dateDebut);
-                } else if (joursDepuisDerniereMaj > 0) {
-                    for(let i=0; i<joursDepuisDerniereMaj; i++) {
-                        revenuActuel += Math.floor(Math.random() * (75 - 10 + 1)) + 10;
-                    }
-                    derniereMajArgent = timeTodayMidnight;
-                    localStorage.setItem('bs_last_update', derniereMajArgent);
-                }
-                localStorage.setItem('bs_revenue', revenuActuel);
-            }
-            document.getElementById('revenue-val').innerText = revenuActuel + " DT";
-
-            // ----------------------------------------------------
-            // 2. CALCUL DES VISITEURS (Heure par Heure depuis 8h)
-            // ----------------------------------------------------
-            let currentHour = now.getHours();
-            let recordedDay = localStorage.getItem('bs_visit_day');
-            let currentDay = now.getDate();
-            
-            let visiteursActuels = localStorage.getItem('bs_visitors');
-            let derniereHeureCalculee = localStorage.getItem('bs_last_hour_calc');
-
-            if (recordedDay != currentDay) {
-                visiteursActuels = 0;
-                derniereHeureCalculee = 7;
-                localStorage.setItem('bs_visit_day', currentDay);
-            } else {
-                visiteursActuels = parseInt(visiteursActuels) || 0;
-                derniereHeureCalculee = parseInt(derniereHeureCalculee) || 7;
-            }
-
-            if (currentHour >= 8) {
-                let heuresPassees = currentHour - derniereHeureCalculee;
-                
-                if (heuresPassees > 0) {
-                    for(let i = 0; i < heuresPassees; i++) {
-                        visiteursActuels += Math.floor(Math.random() * (13 - 2 + 1)) + 2;
-                    }
-                    derniereHeureCalculee = currentHour;
-                    localStorage.setItem('bs_visitors', visiteursActuels);
-                    localStorage.setItem('bs_last_hour_calc', derniereHeureCalculee);
-                }
-            } else {
-                visiteursActuels = 0;
-            }
-
-            document.getElementById('visitors-val').innerText = visiteursActuels;
-
-            // ----------------------------------------------------
-            // 3. WIDGET COMMANDES (Aléatoire)
-            // ----------------------------------------------------
-            document.getElementById('orders-val').innerText = Math.floor(Math.random() * 4);
-        }
-    </script>
 </body>
 </html>
