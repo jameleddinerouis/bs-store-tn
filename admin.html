@@ -3,135 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BS Store | Sécurité & Admin</title>
+    <title>BS Admin | Secure Access</title>
     <style>
-        :root {
-            --term-bg: #050505;
-            --term-green: #00ff41;
-            --term-red: #ff003c;
-            --term-border: #1a1a1a;
-        }
-
-        body {
-            font-family: 'Courier New', Courier, monospace;
-            background-color: var(--term-bg);
-            color: var(--term-green);
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-image: linear-gradient(rgba(0, 255, 65, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 255, 65, 0.03) 1px, transparent 1px);
-            background-size: 20px 20px;
-        }
-
-        .login-box {
-            background: rgba(0, 0, 0, 0.8);
-            border: 1px solid var(--term-green);
-            padding: 40px;
-            width: 100%;
-            max-width: 400px;
-            box-shadow: 0 0 20px rgba(0, 255, 65, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Effet scanline rétro */
-        .login-box::before {
-            content: " ";
-            display: block;
-            position: absolute;
-            top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            z-index: 2;
-            background-size: 100% 2px, 3px 100%;
-            pointer-events: none;
-        }
-
-        h2 {
-            margin-top: 0;
-            text-transform: uppercase;
-            font-size: 1.5rem;
-            letter-spacing: 2px;
-            border-bottom: 1px dashed var(--term-green);
-            padding-bottom: 10px;
-            margin-bottom: 30px;
-        }
-
-        .input-group {
-            margin-bottom: 20px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        label {
-            font-size: 0.9rem;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-        }
-
-        input {
-            background-color: #000;
-            border: 1px solid #333;
-            color: var(--term-green);
-            padding: 12px;
-            font-family: inherit;
-            font-size: 1rem;
-            outline: none;
-            transition: border 0.3s;
-        }
-
-        input:focus { border: 1px solid var(--term-green); }
-
-        .btn-auth {
-            background: transparent;
-            color: var(--term-green);
-            border: 1px solid var(--term-green);
-            padding: 12px;
-            width: 100%;
-            font-family: inherit;
-            font-size: 1.1rem;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin-top: 10px;
-        }
-
-        .btn-auth:hover {
-            background: var(--term-green);
-            color: #000;
-        }
-
-        .status-sys {
-            margin-top: 20px;
-            font-size: 0.8rem;
-            opacity: 0.7;
-            text-align: center;
-        }
+        body { background: #050505; color: #00ff41; font-family: 'Courier New', monospace; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .admin-panel { border: 2px solid #00ff41; padding: 40px; background: rgba(0,20,0,0.9); box-shadow: 0 0 30px rgba(0,255,65,0.2); width: 100%; max-width: 450px; }
+        h2 { border-bottom: 1px solid #00ff41; padding-bottom: 10px; margin-bottom: 30px; text-align: center; }
+        .input-box { width: 100%; background: black; border: 1px solid #00ff41; padding: 15px; color: #00ff41; margin-bottom: 20px; outline: none; }
+        .btn-access { width: 100%; border: 1px solid #00ff41; background: transparent; color: #00ff41; padding: 15px; cursor: pointer; font-family: inherit; font-size: 1.2rem; }
+        .btn-access:hover { background: #00ff41; color: black; }
+        #console { font-size: 0.8rem; margin-top: 20px; min-height: 60px; }
     </style>
 </head>
 <body>
-
-    <div class="login-box">
-        <h2>> AUTH_REQUIRED</h2>
-        
-        <div class="input-group">
-            <label>Utilisateur :</label>
-            <input type="text" placeholder="admin_id" autocomplete="off">
-        </div>
-        
-        <div class="input-group">
-            <label>Clé de sécurité :</label>
-            <input type="password" placeholder="••••••••">
-        </div>
-
-        <button class="btn-auth">Initialiser Connexion</button>
-
-        <div class="status-sys">
-            SYS_STATUS: ONLINE | PORT: 8080<br>
-            MONITORING RESEAU ACTIF
-        </div>
+    <div class="admin-panel">
+        <h2>[ SECURE_LOGIN ]</h2>
+        <input type="text" class="input-box" placeholder="ADMIN_USER">
+        <input type="password" class="input-box" placeholder="SECURITY_KEY">
+        <button class="btn-access" onclick="access()">INITIALISER_ACCÈS</button>
+        <div id="console"></div>
     </div>
 
+    <script>
+        const consoleDiv = document.getElementById('console');
+        const logs = [
+            "> Connexion serveur tunisien établie...",
+            "> Scan des ports de sécurité...",
+            "> Accès BS-STORE-DATABASE [READY]",
+            "> En attente d'authentification..."
+        ];
+        let i = 0;
+        function typeLog() {
+            if(i < logs.length) {
+                consoleDiv.innerHTML += logs[i] + "<br>";
+                i++;
+                setTimeout(typeLog, 800);
+            }
+        }
+        window.onload = typeLog;
+        function access() { alert("Accès refusé : Clé de cryptage manquante."); }
+    </script>
 </body>
 </html>
