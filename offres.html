@@ -1,152 +1,26 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BS Store TN - Nos Offres</title>
-    <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Poppins:wght@700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bs-blue: #0A56D9;
-            --bs-yellow: #FFD000;
-            --bs-dark: #121212;
-            --bs-light: #ffffff;
-            --bs-green: #00E676;
-        }
+<script>
+    const cards = document.querySelectorAll('.product-card');
 
-        body {
-            font-family: 'Lilita One', cursive;
-            background-color: var(--bs-blue);
-            color: var(--bs-light);
-            margin: 0; padding: 0;
-            background-image: radial-gradient(circle, rgba(255,255,255,0.1) 10%, transparent 11%);
-            background-size: 30px 30px;
-        }
+    cards.forEach(card => {
+        card.addEventListener('mousemove', e => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left; // Position X de la souris dans la carte
+            const y = e.clientY - rect.top;  // Position Y de la souris dans la carte
+            
+            // Calcul de la rotation (plus on est loin du centre, plus ça tourne)
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = ((y - centerY) / centerY) * -15; // Max 15 degrés
+            const rotateY = ((x - centerX) / centerX) * 15;
 
-        .nav-bar {
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: var(--bs-dark);
-            border-bottom: 5px solid var(--bs-yellow);
-        }
-        .btn-back {
-            color: var(--bs-dark);
-            background: var(--bs-yellow);
-            text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            border: 3px solid var(--bs-light);
-            font-size: 1.2rem;
-            transition: 0.2s;
-        }
-        .btn-back:hover { transform: scale(1.05); }
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
+            card.style.transition = 'transform 0.1s ease-out';
+        });
 
-        h1 { text-align: center; font-size: 4rem; margin: 40px 0; text-shadow: 4px 4px 0 var(--bs-dark); }
-
-        .store-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-            padding: 0 40px 60px 40px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .product-card {
-            background: var(--bs-light);
-            border: 6px solid var(--bs-dark);
-            border-radius: 20px;
-            padding: 20px;
-            text-align: center;
-            position: relative;
-            box-shadow: 8px 8px 0px var(--bs-dark);
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        .product-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 12px 12px 0px var(--bs-dark);
-        }
-
-        .product-img {
-            width: 100%;
-            height: 200px;
-            border-radius: 10px;
-            border: 4px solid var(--bs-dark);
-            object-fit: cover;
-            background-color: #eee; /* Couleur de fond en attendant le chargement */
-        }
-
-        .product-title {
-            color: var(--bs-dark);
-            font-size: 2.2rem;
-            margin: 15px 0;
-            line-height: 1.1;
-        }
-
-        .product-price {
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.8rem;
-            color: var(--bs-green);
-            background: var(--bs-dark);
-            display: inline-block;
-            padding: 5px 20px;
-            border-radius: 30px;
-            border: 3px solid var(--bs-light);
-            margin-bottom: 20px;
-        }
-
-        .btn-buy {
-            background: var(--bs-yellow);
-            color: var(--bs-dark);
-            border: 4px solid var(--bs-dark);
-            padding: 15px;
-            font-size: 1.5rem;
-            font-family: inherit;
-            border-radius: 10px;
-            cursor: pointer;
-            box-shadow: 4px 4px 0 var(--bs-dark);
-            transition: 0.1s;
-        }
-        .btn-buy:active { transform: translate(2px, 2px); box-shadow: 0 0 0 var(--bs-dark); }
-
-    </style>
-</head>
-<body>
-
-    <div class="nav-bar">
-        <a href="index.html" class="btn-back">⬅ RETOUR</a>
-        <h2>BS STORE TN</h2>
-    </div>
-
-    <h1>⚡ NOS OFFRES ⚡</h1>
-
-    <div class="store-grid">
-        <div class="product-card">
-            <img src="image.jpg" alt="Pack de Gemmes" class="product-img">
-            <div class="product-title">PACK GEMMES</div>
-            <div class="product-price">Sur Devis</div>
-            <button class="btn-buy">Acheter via Discord</button>
-        </div>
-
-        <div class="product-card" style="border-color: #00E676;">
-            <img src="image2.jpg" alt="Brawl Pass" class="product-img">
-            <div class="product-title">BRAWL PASS</div>
-            <div class="product-price">X DT</div>
-            <button class="btn-buy">Acheter via Discord</button>
-        </div>
-
-        <div class="product-card" style="border-color: #E63946;">
-            <img src="image3.jpg" alt="Brawl Pass Plus" class="product-img">
-            <div class="product-title">BRAWL PASS PLUS</div>
-            <div class="product-price">X DT</div>
-            <button class="btn-buy">Acheter via Discord</button>
-        </div>
-    </div>
-
-</body>
-</html>
+        // Remise à zéro quand la souris quitte la carte
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+            card.style.transition = 'transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+        });
+    });
+</script>
