@@ -1,26 +1,80 @@
-<script>
-    const cards = document.querySelectorAll('.product-card');
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BS Store - Offres</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Poppins:wght@600&display=swap" rel="stylesheet">
+    <style>
+        :root { --bs-blue: #0A56D9; --bs-yellow: #FFD000; --bs-dark: #121212; --bs-green: #00E676; }
+        body { font-family: 'Lilita One', cursive; background: var(--bs-blue); margin: 0; color: white; padding-bottom: 50px; }
+        
+        .nav { background: var(--bs-dark); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid var(--bs-yellow); }
+        .back-link { color: var(--bs-yellow); text-decoration: none; font-size: 1.5rem; }
 
-    cards.forEach(card => {
-        card.addEventListener('mousemove', e => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left; // Position X de la souris dans la carte
-            const y = e.clientY - rect.top;  // Position Y de la souris dans la carte
-            
-            // Calcul de la rotation (plus on est loin du centre, plus ça tourne)
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            const rotateX = ((y - centerY) / centerY) * -15; // Max 15 degrés
-            const rotateY = ((x - centerX) / centerX) * 15;
+        h1 { text-align: center; font-size: 4rem; margin: 40px 0; text-shadow: 4px 4px 0 var(--bs-dark); }
 
-            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
-            card.style.transition = 'transform 0.1s ease-out';
+        .container { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; padding: 20px; max-width: 1200px; margin: auto; }
+
+        .card {
+            background: white; border: 6px solid var(--bs-dark); border-radius: 25px; padding: 20px;
+            color: var(--bs-dark); text-align: center; box-shadow: 10px 10px 0 var(--bs-dark);
+            transition: 0.1s linear; transform-style: preserve-3d; cursor: pointer;
+        }
+
+        .card img { width: 100%; border-radius: 15px; border: 4px solid var(--bs-dark); margin-bottom: 15px; pointer-events: none; }
+        .price-tag { background: var(--bs-dark); color: var(--bs-green); font-family: 'Poppins'; padding: 10px; border-radius: 10px; font-size: 1.8rem; margin: 15px 0; border: 2px solid white; }
+        
+        .buy-btn { background: var(--bs-yellow); border: 4px solid var(--bs-dark); padding: 15px; width: 100%; font-family: inherit; font-size: 1.5rem; border-radius: 12px; cursor: pointer; box-shadow: 4px 4px 0 var(--bs-dark); }
+        .buy-btn:hover { background: #ffea00; }
+    </style>
+</head>
+<body>
+
+    <div class="nav">
+        <a href="index.html" class="back-link">⬅ RETOUR</a>
+        <div style="font-size: 1.5rem;">BS STORE TN</div>
+    </div>
+
+    <h1>⚡ BOUTIQUE ⚡</h1>
+
+    <div class="container">
+        <div class="card" id="card1">
+            <img src="image.jpg" alt="Gemmes">
+            <h2>PACK GEMMES</h2>
+            <div class="price-tag">SUR DEVIS</div>
+            <button class="buy-btn">COMMANDER</button>
+        </div>
+
+        <div class="card" id="card2">
+            <img src="image2.jpg" alt="Brawl Pass">
+            <h2>BRAWL PASS</h2>
+            <div class="price-tag">XX DT</div>
+            <button class="buy-btn">COMMANDER</button>
+        </div>
+
+        <div class="card" id="card3">
+            <img src="image3.jpg" alt="Brawl Pass Plus">
+            <h2>PASS PLUS</h2>
+            <div class="price-tag">XX DT</div>
+            <button class="buy-btn">COMMANDER</button>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                let rect = card.getBoundingClientRect();
+                let x = e.clientX - rect.left;
+                let y = e.clientY - rect.top;
+                let rotateX = ((y - rect.height/2) / rect.height) * -20;
+                let rotateY = ((x - rect.width/2) / rect.width) * 20;
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg)`;
+            });
         });
-
-        // Remise à zéro quand la souris quitte la carte
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
-            card.style.transition = 'transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-        });
-    });
-</script>
+    </script>
+</body>
+</html>
